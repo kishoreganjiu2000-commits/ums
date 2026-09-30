@@ -1,0 +1,409 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ SITE_NAME }} — {{ SITE_TAGLINE }}{% endblock %}
+
+{% block meta_description %}Jholo University is a modern institution offering 38 degree programmes across six faculties, with a focus on teaching quality, research and graduate outcomes.{% endblock %}
+
+{% comment %}
+Order is deliberate: hook the visitor, offer shortcuts, build credibility,
+then the three content feeds, then numbers, then a final push.
+{% endcomment %}
+
+{% block content %}
+
+{# ---------------------------------------------------------------- 1. Hero #}
+<section class="hero">
+    <div class="container hero__inner">
+        <p class="eyebrow">Admissions open for Spring 2027</p>
+
+        <h1 class="hero__title">Where curiosity becomes capability</h1>
+
+        <p class="hero__lead">
+            {{ SITE_NAME }} teaches across six faculties with small classes, strong
+            research groups and a graduate network that reaches well beyond the region.
+        </p>
+
+        <div class="hero__actions">
+            <a class="btn btn--accent" href="{% url 'core:admission' %}">Apply Now</a>
+            <a class="btn btn--ghost-light" href="{% url 'core:academics' %}">Explore Programs</a>
+        </div>
+
+        <ul class="hero__facts">
+            <li><strong>38</strong> degree programmes</li>
+            <li><strong>6</strong> faculties</li>
+            <li><strong>12</strong> research centres</li>
+        </ul>
+    </div>
+</section>
+
+{# ------------------------------------------- 2. Leadership (under the hook) #}
+{% comment %}
+  Sits immediately after the hero because that is where a visitor looks for
+  who is behind the promise in the headline. The Chancellor line renders only
+  when the data supplies an office, so the Vice-Chancellor card stays clean.
+{% endcomment %}
+<section class="section section--tight leadership">
+    <div class="container">
+        <h2 class="visually-hidden">Messages from the Chancellor and the Vice-Chancellor</h2>
+
+        <ul class="grid grid--2 leadership-grid">
+            {% for leader in leaders %}
+                <li>
+                    <article class="card leader-card">
+                        <div class="leader-card__head">
+                            <img class="leader-card__portrait"
+                                 src="{% static leader.portrait %}"
+                                 alt="{{ leader.alt }}"
+                                 width="400"
+                                 height="400"
+                                 loading="lazy"
+                                 decoding="async">
+                            <div class="leader-card__id">
+                                <p class="leader-card__name">{{ leader.name }}</p>
+                                <p class="meta">
+                                    <span class="tag">{{ leader.role }}</span>
+                                </p>
+                                {% if leader.office %}
+                                    <p class="leader-card__office">{{ leader.office }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="card__body">
+                            <p class="leader-card__message">{{ leader.message }}</p>
+
+                            <p class="leader-card__sign">
+                                <span class="leader-card__sign-name">{{ leader.name }}</span>
+                                <span class="leader-card__sign-role">{{ leader.role }}, {{ SITE_SHORT_NAME }}</span>
+                            </p>
+                        </div>
+                    </article>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{# ------------------------------------------------------- 3. Quick access #}
+<section class="section section--tight">
+    <div class="container">
+        <h2 class="visually-hidden">Quick access</h2>
+
+        <ul class="quicklinks">
+            {% for item in quick_links %}
+                <li>
+                    <a class="quicklink" href="{% url item.url_name %}">
+                        <span class="quicklink__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="{{ item.icon }}" />
+                            </svg>
+                        </span>
+                        <span class="quicklink__text">
+                            <span class="quicklink__label">{{ item.label }}</span>
+                            <span class="quicklink__sub">{{ item.text }}</span>
+                        </span>
+                        <span class="quicklink__arrow" aria-hidden="true">&rsaquo;</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{# ---------------------------------------------------------- 3. About Jholo #}
+<section class="section">
+    <div class="container split">
+        <div class="split__body">
+            <span class="eyebrow">About the university</span>
+            <h2 class="section__title">Built for teaching first</h2>
+
+            <p>
+                Founded in 1998, {{ SITE_NAME }} has grown from a single faculty of
+                science into a full university with six faculties and more than four
+                thousand students. The founding decision has not changed: lecture
+                groups stay small, teaching staff hold terminal degrees, and every
+                programme carries a substantial project component.
+            </p>
+            <p>
+                Alongside teaching, twelve research centres work with regional
+                industry and public institutions on transport, health, agriculture
+                and education technology.
+            </p>
+
+            <ul class="ticks">
+                <li>Accredited programmes with external review every five years</li>
+                <li>Full-time faculty only &mdash; no teaching delivered by contractors</li>
+                <li>Scholarships covering up to 100% of tuition for merit students</li>
+                <li>Library access, career services and counselling included for all students</li>
+            </ul>
+
+            <a class="btn btn--primary mt-0" href="{% url 'core:about' %}">About {{ SITE_SHORT_NAME }}</a>
+        </div>
+
+        <div class="split__media">
+            <div class="campus-card">
+                {% comment %}
+                  A real photograph now, so it carries a real alt description.
+                  width/height let the browser reserve the box before the file
+                  loads, which keeps the page from shifting.
+                {% endcomment %}
+                <img class="campus-card__art"
+                     src="{% static 'img/campus.jpg' %}"
+                     alt="A historic red brick university building framed by mature trees and walking paths"
+                     width="1000"
+                     height="750"
+                     loading="lazy"
+                     decoding="async">
+                <div class="campus-card__body">
+                    <p class="campus-card__label">Campus</p>
+                    <p class="campus-card__value">42 acres</p>
+                    <ul class="campus-card__list">
+                        <li>Six faculties under one roof</li>
+                        <li>Central library, 180,000 volumes</li>
+                        <li>Residence halls for 1,200 students</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ------------------------------------------------ 3b. Mission and vision #}
+{% comment %}
+  Sits immediately after the About block because it is the same subject
+  continued - the promises the history section led with, stated plainly. Two
+  cards rather than prose so a visitor can take in one without reading the
+  other.
+{% endcomment %}
+<section class="section section--tight mission-vision">
+    <div class="container">
+        <h2 class="visually-hidden">Our mission and vision</h2>
+
+        <ul class="grid grid--2">
+            {% for item in mission_vision %}
+                <li>
+                    <article class="card">
+                        <div class="card__body">
+                            <p class="mission-vision__label">
+                                <span class="quicklink__icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="{{ item.icon }}" />
+                                    </svg>
+                                </span>
+                                <span class="tag">{{ item.label }}</span>
+                            </p>
+
+                            <h3 class="card__title">{{ item.title }}</h3>
+                            <p class="card__text">{{ item.text }}</p>
+
+                            <ul class="ticks">
+                                {% for point in item.points %}
+                                    <li>{{ point }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </article>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{# --------------------------------------------------- 4. Academic programs #}
+<section class="section section--alt">
+    <div class="container">
+        <div class="section__head section__head--row">
+            <div>
+                <span class="eyebrow">Academics</span>
+                <h2 class="section__title">Programmes worth a detour</h2>
+                <p class="section__lead">
+                    Thirty-eight degrees across six faculties, each built around
+                    laboratory, clinical or field work rather than lecture alone.
+                </p>
+            </div>
+            <a class="btn btn--outline" href="{% url 'core:academics' %}">All programmes</a>
+        </div>
+
+        <ul class="grid grid--3 program-grid">
+            {% for program in programs %}
+                <li>
+                    <article class="card program-card">
+                        <div class="card__body">
+                            <span class="program-card__code">{{ program.code }}</span>
+                            <h3 class="card__title">{{ program.title }}</h3>
+                            <p class="card__text">{{ program.text }}</p>
+                            <p class="meta program-card__meta">
+                                <span>{{ program.faculty }}</span>
+                                <span class="meta__dot">{{ program.duration }}</span>
+                            </p>
+                        </div>
+                    </article>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{# ------------------------------------------------------- 6. Notice preview #}
+<section class="section">
+    <div class="container">
+        <div class="section__head section__head--row">
+            <div>
+                <span class="eyebrow">Notice board</span>
+                <h2 class="section__title">Recent notices</h2>
+                <p class="section__lead">
+                    Examinations, admissions and campus announcements. Papers are
+                    available for download where issued.
+                </p>
+            </div>
+            <a class="btn btn--outline" href="{% url 'notice:notice_list' %}">All notices</a>
+        </div>
+
+        <ul class="notice-list">
+{% for notice in notices %}
+                        <li class="notice-row">
+                            <div class="notice-row__date">
+                                <span class="notice-row__day">{{ notice.published_date|date:"d" }}</span>
+                                <span class="notice-row__month">{{ notice.published_date|date:"M" }}</span>
+                            </div>
+
+                            <div class="notice-row__body">
+                                <p class="meta">
+                                    <span class="tag">{{ notice.category.name }}</span>
+                                    {% if notice.reference_code %}
+                                        <span class="meta__dot">{{ notice.reference_code }}</span>
+                                    {% endif %}
+                                    <span class="meta__dot">{{ notice.published_date|date:"j F Y" }}</span>
+                                </p>
+
+                                <h3 class="notice-row__title">
+                                    <a href="{{ notice.get_absolute_url }}">{{ notice.title }}</a>
+                                </h3>
+
+                                <p class="notice-row__summary">
+                                    {{ notice.description|truncatechars:120 }}
+                                </p>
+                            </div>
+
+                            {% if notice.has_attachment %}
+                                <a class="notice-row__file"
+                                   href="{% url 'notice:notice_download' notice.slug %}"
+                                   title="Download PDF">
+                                    <span aria-hidden="true">PDF</span>
+                                    <span class="visually-hidden">Download PDF for {{ notice.title }}</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                    {% empty %}
+                        <li class="notice-row notice-row--empty">
+                            <p class="notice-row__summary">No notices have been published yet.</p>
+                        </li>
+                    {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{# --------------------------------------------------------- 7. Latest news #}
+<section class="section section--alt">
+    <div class="container">
+        <div class="section__head section__head--row">
+            <div>
+                <span class="eyebrow">Newsroom</span>
+                <h2 class="section__title">Latest news</h2>
+            </div>
+            <a class="btn btn--outline" href="{% url 'core:news_events' %}">News &amp; events</a>
+        </div>
+
+        <ul class="grid grid--3">
+            {% for item in news %}
+                <li>
+                    <article class="card news-card">
+                        {% comment %}
+                          Each card leads with a real photograph. The empty
+                          div behind it stays as a colour placeholder, so the box
+                          still looks intentional while the JPEG arrives.
+                        {% endcomment %}
+                        <div class="card__media">
+                            <img src="{% static item.image %}"
+                                 alt="{{ item.alt }}"
+                                 width="800"
+                                 height="500"
+                                 loading="lazy"
+                                 decoding="async">
+                        </div>
+                        <div class="card__body">
+                            <p class="meta">
+                                <span class="tag">{{ item.category }}</span>
+                                <span class="meta__dot">{{ item.date|date:"j M Y" }}</span>
+                            </p>
+                            <h3 class="card__title">{{ item.title }}</h3>
+                            <p class="card__text">{{ item.text }}</p>
+                        </div>
+                    </article>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{# -------------------------------------------------------- 8. Upcoming events #}
+<section class="section">
+    <div class="container">
+        <div class="section__head section__head--row">
+            <div>
+                <span class="eyebrow">Calendar</span>
+                <h2 class="section__title">Upcoming events</h2>
+            </div>
+            <a class="btn btn--outline" href="{% url 'core:news_events' %}">Full calendar</a>
+        </div>
+
+        <ul class="event-list">
+            {% for event in events %}
+                <li class="event">
+                    <div class="event__date" aria-hidden="true">
+                        <span class="event__day">{{ event.date|date:"d" }}</span>
+                        <span class="event__month">{{ event.date|date:"M" }}</span>
+                    </div>
+
+                    <div class="event__body">
+                        <h3 class="event__title">{{ event.title }}</h3>
+                        <p class="event__meta">{{ event.time }} &middot; {{ event.venue }}</p>
+                        <p class="event__text">{{ event.text }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{# ------------------------------------------------------------ 9. Statistics #}
+<section class="section section--dark stats-band">
+    <div class="container">
+        <div class="stats-band__inner">
+            {% for stat in stats %}
+                <div class="stat">
+                    <span class="stat__number" data-count-to="{{ stat.value }}">0</span>
+                    <span class="stat__label">{{ stat.label }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{# ----------------------------------------------------------------- 10. CTA #}
+<section class="cta-band">
+    <div class="container">
+        <h2 class="cta-band__title">Applications for Spring 2027 are open</h2>
+        <p class="cta-band__text">
+            Merit scholarships cover up to full tuition. Early applications are
+            reviewed from August and offers are issued on a rolling basis.
+        </p>
+        <div class="cta-band__actions">
+            <a class="btn btn--accent" href="{% url 'core:admission' %}">Apply Now</a>
+            <a class="btn btn--ghost-light" href="{% url 'core:contact' %}">Talk to Admissions</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

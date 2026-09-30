@@ -1,0 +1,2382 @@
+/* ==========================================================================
+   Jholo University - main stylesheet
+    Order: tokens -> reset -> base -> layout -> components -> dev page
+         -> utilities -> responsive
+   Every colour, font and spacing value resolves to a token, so a rebrand is
+   a change to :root only.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design tokens
+   -------------------------------------------------------------------------- */
+:root {
+    /* Brand */
+    --color-primary: #0f2b46;
+    --color-primary-dark: #0a1f33;
+    --color-primary-light: #1d4a75;
+    --color-accent: #c9a227;
+    --color-accent-dark: #a8851c;
+    --color-accent-light: #e6c766;
+
+    /* Neutrals */
+    --color-ink: #16202b;
+    --color-body: #46566a;
+    --color-muted: #6b7c90;
+    --color-border: #dfe6ee;
+    --color-bg: #ffffff;
+    --color-bg-alt: #f5f8fb;
+    --color-bg-dark: #0f2b46;
+
+    /* Status */
+    --color-success: #1c7a4a;
+    --color-danger: #b3261e;
+
+    /* Typography */
+    --font-heading: Georgia, 'Times New Roman', serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                 'Helvetica Neue', Arial, sans-serif;
+
+    --fs-xs: 0.75rem;
+    --fs-sm: 0.875rem;
+    --fs-base: 1rem;
+    --fs-md: 1.125rem;
+    --fs-lg: 1.375rem;
+    --fs-xl: 1.75rem;
+    --fs-2xl: 2.25rem;
+    --fs-3xl: 3rem;
+
+    --lh-tight: 1.2;
+    --lh-base: 1.65;
+
+    /* Spacing scale */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-7: 3rem;
+    --space-8: 4rem;
+    --space-9: 6rem;
+
+    /* Shape */
+    --radius-sm: 4px;
+    --radius: 8px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 2px rgba(15, 43, 70, 0.08);
+    --shadow: 0 4px 16px rgba(15, 43, 70, 0.10);
+    --shadow-lg: 0 12px 32px rgba(15, 43, 70, 0.16);
+
+    /* Layout */
+    --container-width: 1200px;
+    --header-height: 84px;
+    --transition: 220ms ease;
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* The header is sticky, so any in-page anchor (the skip link, a heading)
+       would otherwise land underneath it. */
+    scroll-padding-top: calc(var(--header-height) + var(--space-4));
+}
+
+img,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+
+input,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+a:hover {
+    color: var(--color-accent-dark);
+}
+
+/* --------------------------------------------------------------------------
+   3. Base
+   -------------------------------------------------------------------------- */
+body {
+    font-family: var(--font-body);
+    font-size: var(--fs-base);
+    line-height: var(--lh-base);
+    color: var(--color-body);
+    background-color: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    color: var(--color-ink);
+    /* Long single words (programme names, notice titles) must never force the
+       page sideways on a narrow screen. */
+    overflow-wrap: break-word;
+}
+
+h1 { font-size: var(--fs-3xl); }
+h2 { font-size: var(--fs-2xl); }
+h3 { font-size: var(--fs-xl); }
+h4 { font-size: var(--fs-lg); }
+
+p {
+    margin-bottom: var(--space-4);
+    overflow-wrap: break-word;
+}
+
+:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* Keyboard users land here first. Hidden until focused. */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: var(--space-4);
+    z-index: 200;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-primary);
+    color: #fff;
+    border-radius: var(--radius);
+    font-weight: 600;
+}
+
+.skip-link:focus {
+    top: var(--space-4);
+    color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   4. Layout
+   -------------------------------------------------------------------------- */
+.container {
+    width: 100%;
+    max-width: var(--container-width);
+    margin-inline: auto;
+    padding-inline: var(--space-5);
+}
+
+.main {
+    min-height: 50vh;
+}
+
+.section {
+    padding-block: var(--space-8);
+}
+
+.section--tight {
+    padding-block: var(--space-6);
+}
+
+.section--alt {
+    background-color: var(--color-bg-alt);
+}
+
+.section--dark {
+    background-color: var(--color-bg-dark);
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.section--dark h2,
+.section--dark h3 {
+    color: #fff;
+}
+
+.section__head {
+    max-width: 720px;
+    margin-bottom: var(--space-7);
+}
+
+.section__head--center {
+    margin-inline: auto;
+    text-align: center;
+}
+
+.section__title {
+    margin-bottom: var(--space-3);
+}
+
+.section__lead {
+    color: var(--color-muted);
+    font-size: var(--fs-md);
+}
+
+.section--dark .section__lead {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.eyebrow {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent-dark);
+}
+
+.section--dark .eyebrow {
+    color: var(--color-accent-light);
+}
+
+.grid {
+    display: grid;
+    gap: var(--space-5);
+}
+
+.grid--2 { grid-template-columns: repeat(2, 1fr); }
+.grid--3 { grid-template-columns: repeat(3, 1fr); }
+.grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+/* --------------------------------------------------------------------------
+   5. Components
+   -------------------------------------------------------------------------- */
+
+/* --- Hero --- */
+.hero {
+    position: relative;
+    padding-block: clamp(4rem, 9vw, 7rem);
+    background-color: var(--color-primary);
+    background-image:
+        url('../img/hero-pattern.svg'),
+        linear-gradient(130deg,
+            rgba(10, 31, 51, 0.97) 0%,
+            rgba(15, 43, 70, 0.93) 50%,
+            rgba(29, 74, 117, 0.88) 100%);
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    overflow: hidden;
+}
+
+.hero__inner {
+    max-width: 780px;
+}
+
+.hero__title {
+    max-width: 16ch;
+    margin-bottom: var(--space-5);
+    color: #fff;
+    font-size: clamp(2.25rem, 5.5vw, 4rem);
+    letter-spacing: -0.02em;
+}
+
+.hero__lead {
+    max-width: 58ch;
+    margin-bottom: var(--space-6);
+    font-size: var(--fs-md);
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-bottom: var(--space-7);
+}
+
+.hero__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    font-size: var(--fs-sm);
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.hero__facts strong {
+    font-family: var(--font-heading);
+    font-size: var(--fs-lg);
+    color: var(--color-accent);
+    margin-right: var(--space-2);
+}
+
+/* --- Quick access --- */
+.quicklinks {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+}
+
+.quicklink {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    height: 100%;
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    color: var(--color-ink);
+    transition: border-color var(--transition),
+                box-shadow var(--transition),
+                transform var(--transition);
+}
+
+.quicklink:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-sm);
+    color: var(--color-ink);
+}
+
+/* Deliberately small. The icon orients the link, it does not advertise it. */
+.quicklink__icon {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    color: var(--color-primary-light);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg-alt);
+    transition: color var(--transition), background-color var(--transition);
+}
+
+.quicklink__icon svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 1.5;
+}
+
+.quicklink:hover .quicklink__icon {
+    background-color: rgba(201, 162, 39, 0.16);
+    color: var(--color-accent-dark);
+}
+
+.quicklink__text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.quicklink__label {
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--color-ink);
+}
+
+.quicklink__sub {
+    font-size: var(--fs-xs);
+    line-height: 1.4;
+    color: var(--color-muted);
+}
+
+.quicklink__arrow {
+    margin-left: auto;
+    font-size: var(--fs-md);
+    line-height: 1;
+    color: var(--color-border);
+    transition: transform var(--transition), color var(--transition);
+}
+
+.quicklink:hover .quicklink__arrow {
+    transform: translateX(3px);
+    color: var(--color-accent-dark);
+}
+
+/* --- Split layout (text beside media) --- */
+.split {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: var(--space-8);
+    align-items: center;
+}
+
+.split__body > p {
+    color: var(--color-body);
+}
+
+.ticks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+    font-size: var(--fs-sm);
+}
+
+.ticks li {
+    position: relative;
+    padding-left: var(--space-6);
+}
+
+.ticks li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.45em;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: rgba(201, 162, 39, 0.2);
+    box-shadow: inset 0 0 0 2px var(--color-accent);
+}
+
+/* --- Mission / vision --- */
+.mission-vision__label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+/* The ticks close the card, so they drop the trailing space they carry in
+   the About section where a button follows them. */
+.mission-vision .ticks {
+    margin-bottom: 0;
+    margin-top: var(--space-5);
+}
+
+/* --- Campus card --- */
+.campus-card {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.campus-card__art {
+    /* Real photograph now, but it should still fill the same 4:3 box the
+       gradient occupied. */
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background-color: var(--color-bg-alt);
+}
+
+.campus-card__body {
+    padding: var(--space-5);
+}
+
+.campus-card__label {
+    margin-bottom: var(--space-1);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+.campus-card__value {
+    margin-bottom: var(--space-4);
+    font-family: var(--font-heading);
+    font-size: var(--fs-2xl);
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.campus-card__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: var(--fs-sm);
+    color: var(--color-muted);
+}
+
+.campus-card__list li {
+    padding-left: var(--space-5);
+    position: relative;
+}
+
+.campus-card__list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+}
+
+/* --- Section head with a button on the right --- */
+.section__head--row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-5);
+    max-width: none;
+}
+
+.section__head--row > div {
+    max-width: 640px;
+}
+
+/* --- Programme card --- */
+.program-card__code {
+    display: inline-block;
+    margin-bottom: var(--space-3);
+    font-family: var(--font-heading);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--color-accent-dark);
+}
+
+.program-card .card__title {
+    font-size: var(--fs-md);
+}
+
+.program-card__meta {
+    margin-top: var(--space-4);
+    margin-bottom: 0;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+}
+
+/* --- Notice preview rows --- */
+.notice-list {
+    border-top: 1px solid var(--color-border);
+}
+
+.notice-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-5);
+    padding-block: var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color var(--transition);
+}
+
+.notice-row:hover {
+    background-color: var(--color-bg-alt);
+}
+
+.notice-row__date {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    width: 68px;
+    flex-shrink: 0;
+    padding-block: var(--space-2);
+    background-color: var(--color-bg-alt);
+    border-radius: var(--radius);
+    line-height: 1;
+}
+
+.notice-row__day {
+    font-family: var(--font-heading);
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.notice-row__month {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+.notice-row__body {
+    min-width: 0;
+}
+
+.notice-row__title {
+    margin: var(--space-2) 0;
+    font-family: var(--font-heading);
+    font-size: var(--fs-md);
+    font-weight: 700;
+    color: var(--color-ink);
+}
+
+.notice-row__title a {
+    color: inherit;
+}
+
+.notice-row__title a:hover {
+    color: var(--color-primary-light);
+}
+
+.notice-row__summary {
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--color-muted);
+}
+
+.notice-row__year {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    /* Was --color-border on --color-bg-alt: roughly 1.1:1, so the year was
+       effectively invisible. */
+    color: var(--color-muted);
+    opacity: 0.75;
+}
+
+.notice-row--empty {
+    padding-block: var(--space-6);
+    justify-content: center;
+}
+
+.notice-row__download {
+    display: inline-block;
+    margin-top: var(--space-3);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-success);
+}
+
+.notice-row__download:hover {
+    color: var(--color-primary);
+}
+
+/* Compact PDF badge, used in the homepage preview */
+.notice-row__file {
+    flex-shrink: 0;
+    margin-left: auto;
+    padding: 0.3rem 0.5rem;
+    background-color: rgba(28, 122, 74, 0.1);
+    color: var(--color-success);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.notice-row__file:hover {
+    background-color: rgba(28, 122, 74, 0.18);
+    color: var(--color-success);
+}
+
+/* --- Notice toolbar --- */
+.notice-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+}
+
+.notice-toolbar__search {
+    flex: 1 1 320px;
+}
+
+.notice-toolbar__filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.notice-toolbar input[type='search'],
+.notice-toolbar select {
+    width: 100%;
+    padding: 0.7rem var(--space-4);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: var(--fs-sm);
+    color: var(--color-ink);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.notice-toolbar__filters select {
+    width: auto;
+    min-width: 170px;
+}
+
+.notice-toolbar input:focus,
+.notice-toolbar select:focus {
+    border-color: var(--color-primary-light);
+    box-shadow: 0 0 0 3px rgba(29, 74, 117, 0.12);
+    outline: none;
+}
+
+.notice-resultcount {
+    margin-bottom: var(--space-4);
+    font-size: var(--fs-sm);
+    color: var(--color-muted);
+}
+
+/* --- Pinned banner --- */
+.pinned {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+    padding: var(--space-3) var(--space-4);
+    background-color: rgba(201, 162, 39, 0.1);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--color-ink);
+}
+
+/* --- Tag variants --- */
+.tag--accent {
+    background-color: var(--color-accent);
+    color: var(--color-primary-dark);
+}
+
+/* --- Pagination --- */
+.pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-7);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+}
+
+.pagination__link {
+    display: grid;
+    place-items: center;
+    min-width: 42px;
+    height: 42px;
+    padding-inline: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--color-ink);
+    transition: background-color var(--transition), border-color var(--transition);
+}
+
+.pagination__link:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-bg-alt);
+    color: var(--color-primary);
+}
+
+.pagination__link.is-current {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+}
+
+.pagination__link.is-disabled {
+    color: var(--color-border);
+    cursor: not-allowed;
+}
+
+/* --- Empty state --- */
+.empty-state {
+    padding: var(--space-8) var(--space-5);
+    text-align: center;
+    background-color: var(--color-bg-alt);
+    border-radius: var(--radius-lg);
+}
+
+.empty-state h2 {
+    margin-bottom: var(--space-2);
+    font-size: var(--fs-xl);
+}
+
+.empty-state p {
+    max-width: 46ch;
+    margin: 0 auto var(--space-5);
+    color: var(--color-muted);
+}
+
+/* --- Notice detail --- */
+.notice-detail {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: var(--space-8);
+    align-items: start;
+}
+
+.notice-detail__aside {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-4));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.download-card {
+    padding: var(--space-5);
+    background-color: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+}
+
+.download-card__label {
+    margin-bottom: var(--space-3);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+.download-card__hint {
+    margin: var(--space-3) 0 0;
+    font-size: var(--fs-xs);
+    color: var(--color-muted);
+}
+
+.detail-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-list > div {
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.detail-list dt {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+.detail-list dd {
+    margin: 0;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--color-ink);
+}
+
+.notice-detail__body p {
+    font-size: var(--fs-md);
+    color: var(--color-body);
+}
+
+/* --- Previous / next --- */
+.notice-nav {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+}
+
+.notice-nav__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    color: var(--color-ink);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+a.notice-nav__item:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-sm);
+    color: var(--color-ink);
+}
+
+.notice-nav__item--next {
+    text-align: right;
+}
+
+.notice-nav__item.is-empty {
+    color: var(--color-muted);
+    background-color: transparent;
+    border-style: dashed;
+}
+
+.notice-nav__label {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+.notice-nav__title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* --- Events --- */
+
+/* --- News card --- */
+/* The gradient is now only a placeholder colour behind the photo, so the box
+   still reads as a card before the JPEG arrives. */
+.news-card .card__media {
+    background-image:
+        radial-gradient(circle at 70% 25%, rgba(201, 162, 39, 0.28), transparent 60%),
+        linear-gradient(140deg, var(--color-primary-light), var(--color-primary-dark));
+}
+
+.news-card .card__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.news-card .card__title {
+    font-size: var(--fs-md);
+}
+
+/* --- Leadership messages --- */
+.leadership-grid > li {
+    display: flex;
+}
+
+.leader-card {
+    width: 100%;
+}
+
+/* The card carries the accent colour on the left so the two messages read as a
+   pair without needing a heavier border. */
+.leader-card {
+    border-left: 4px solid var(--color-accent);
+}
+
+.leader-card__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    padding-bottom: 0;
+}
+
+.leader-card__portrait {
+    flex: 0 0 auto;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--color-bg-alt);
+    box-shadow: 0 0 0 3px var(--color-bg),
+                0 0 0 4px rgba(201, 162, 39, 0.45);
+}
+
+.leader-card__id {
+    min-width: 0;
+}
+
+.leader-card__name {
+    margin-bottom: var(--space-1);
+    font-family: var(--font-heading);
+    font-size: var(--fs-md);
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.leader-card__message {
+    margin-bottom: var(--space-5);
+    color: var(--color-text);
+    font-size: var(--fs-sm);
+}
+
+/* Signature block: a quiet rule above the name, the way a printed message
+   would be signed. */
+.leader-card__sign {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 0;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+}
+
+.leader-card__sign-name {
+    font-family: var(--font-heading);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    font-style: italic;
+    color: var(--color-primary);
+}
+
+.leader-card__sign-role {
+    font-size: var(--fs-xs);
+    color: var(--color-muted);
+}
+
+/* --- Event rows --- */
+.event-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.event {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-5);
+    padding-block: var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.event:first-child {
+    border-top: 1px solid var(--color-border);
+}
+
+.event__date {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    width: 76px;
+    flex-shrink: 0;
+    padding-block: var(--space-3);
+    background-color: var(--color-primary);
+    color: #fff;
+    border-radius: var(--radius);
+    line-height: 1;
+}
+
+.event__day {
+    font-family: var(--font-heading);
+    font-size: var(--fs-xl);
+    font-weight: 700;
+}
+
+.event__month {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.event__title {
+    margin-bottom: var(--space-1);
+    font-size: var(--fs-md);
+}
+
+.event__meta {
+    margin-bottom: var(--space-2);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent-dark);
+}
+
+.event__text {
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--color-muted);
+}
+
+/* --- Statistics band --- */
+.stats-band__inner {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+}
+
+/* --- Buttons --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid transparent;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color var(--transition),
+                color var(--transition),
+                border-color var(--transition),
+                transform var(--transition),
+                box-shadow var(--transition);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.btn--primary {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
+.btn--primary:hover {
+    background-color: var(--color-primary-light);
+    color: #fff;
+}
+
+.btn--accent {
+    background-color: var(--color-accent);
+    color: var(--color-primary-dark);
+}
+
+.btn--accent:hover {
+    background-color: var(--color-accent-light);
+    color: var(--color-primary-dark);
+}
+
+.btn--outline {
+    border-color: currentColor;
+    background-color: transparent;
+    color: var(--color-primary);
+}
+
+.btn--outline:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent-dark);
+}
+
+.btn--ghost-light {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+
+.btn--ghost-light:hover {
+    border-color: var(--color-accent-light);
+    color: var(--color-accent-light);
+}
+
+.btn--block {
+    width: 100%;
+}
+
+/* Text-only links that act as controls (download a PDF) need a real tap
+   target on touch screens. */
+.notice-row__download {
+    display: inline-block;
+    min-height: 44px;
+    padding-block: 0.6rem;
+}
+
+/* --- Topbar --- */
+.topbar {
+    background-color: var(--color-primary-dark);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: var(--fs-xs);
+}
+
+.topbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 40px;
+    gap: var(--space-4);
+}
+
+.topbar__note {
+    margin: 0;
+}
+
+.topbar__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+}
+
+.topbar a {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+}
+
+.topbar a:hover {
+    color: var(--color-accent-light);
+}
+
+/* --- Header --- */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    transition: box-shadow var(--transition);
+}
+
+.header.is-stuck {
+    box-shadow: var(--shadow);
+}
+
+.header__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    min-height: var(--header-height);
+}
+
+/* --- Brand --- */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-right: auto;
+    /* Without this the flex item refuses to shrink below its text width and
+       pushes the navigation off the right edge on mid-size screens. */
+    min-width: 0;
+}
+
+.brand__mark {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    background-color: var(--color-primary);
+    color: var(--color-accent);
+    border-radius: var(--radius);
+    font-family: var(--font-heading);
+    font-size: var(--fs-lg);
+    font-weight: 700;
+}
+
+.brand__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.brand__name {
+    font-family: var(--font-heading);
+    font-size: var(--fs-md);
+    font-weight: 700;
+    color: var(--color-ink);
+    /* Keeps the header on its single 84px row. Wrapping here grew the header
+       and pushed the mobile panel's max-height out of the viewport. */
+    white-space: nowrap;
+}
+
+.brand__tagline {
+    font-size: var(--fs-xs);
+    color: var(--color-muted);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- Navigation --- */
+.nav__list {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.nav__item {
+    position: relative;
+}
+
+.nav__link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: left;
+    white-space: nowrap;
+    color: var(--color-ink);
+}
+
+.nav__link:hover {
+    background-color: var(--color-bg-alt);
+    color: var(--color-primary);
+}
+
+/* Driven by url_name comparison in nav_item.html */
+.nav__link.is-active {
+    color: var(--color-primary);
+    box-shadow: inset 0 -3px 0 var(--color-accent);
+}
+
+.nav__disclosure {
+    cursor: pointer;
+}
+
+.nav__caret {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid currentColor;
+    opacity: 0.5;
+    transition: transform var(--transition);
+}
+
+.nav__disclosure[aria-expanded='true'] .nav__caret {
+    transform: rotate(180deg);
+}
+
+/* --- Dropdown panel --- */
+.subnav {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    z-index: 110;
+    min-width: 268px;
+    padding: var(--space-2);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-accent);
+    border-radius: 0 0 var(--radius) var(--radius);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity var(--transition), transform var(--transition),
+                visibility var(--transition);
+}
+
+/* Alignment keeps the last dropdown on screen */
+.nav__item--parent:nth-last-child(-n + 3) .subnav {
+    left: auto;
+    right: 0;
+}
+
+/*
+  Three ways open, in priority order:
+    .is-open       JS state, works on desktop and mobile
+    :focus-within  keyboard tabbing, no JS required
+    :hover         pointer, no JS required
+  visibility: hidden on the closed state also removes the links from the tab
+  order, so a keyboard user never lands inside a closed dropdown.
+*/
+.subnav.is-open,
+.nav__item--parent:hover .subnav,
+.nav__item--parent:focus-within .subnav {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.subnav .nav__link {
+    padding: var(--space-2) var(--space-3);
+    color: var(--color-body);
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+}
+
+.subnav .nav__link:hover {
+    background-color: var(--color-bg-alt);
+    color: var(--color-primary);
+    box-shadow: inset 3px 0 0 var(--color-accent);
+    padding-left: var(--space-4);
+}
+
+.subnav .nav__link.is-active {
+    background-color: rgba(201, 162, 39, 0.1);
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* Single call to action. "Now" is hidden on small screens - see the
+   560px block - so this stays one element at every breakpoint. */
+.header__cta {
+    flex-shrink: 0;
+}
+
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 0 10px;
+    border-radius: var(--radius-sm);
+}
+
+.nav-toggle__bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-ink);
+    border-radius: 2px;
+    transition: transform var(--transition), opacity var(--transition);
+}
+
+/* Hamburger -> X */
+.nav-toggle[aria-expanded='true'] .nav-toggle__bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded='true'] .nav-toggle__bar:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle[aria-expanded='true'] .nav-toggle__bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --- Cards --- */
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition),
+                border-color var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: transparent;
+    box-shadow: var(--shadow-lg);
+}
+
+.card__body {
+    padding: var(--space-5);
+}
+
+.card__title {
+    margin-bottom: var(--space-2);
+    font-size: var(--fs-lg);
+}
+
+.card__title a {
+    color: inherit;
+}
+
+.card__text {
+    margin-bottom: 0;
+    color: var(--color-muted);
+    font-size: var(--fs-sm);
+}
+
+.card__media {
+    aspect-ratio: 16 / 10;
+    background-color: var(--color-bg-alt);
+}
+
+/* --- Meta rows (dates, tags, read-more) --- */
+.meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--fs-xs);
+    color: var(--color-muted);
+}
+
+.meta__dot::before {
+    content: '•';
+    margin-right: var(--space-3);
+    color: var(--color-border);
+}
+
+/* --- Tag / badge --- */
+.tag {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    background-color: rgba(201, 162, 39, 0.14);
+    color: var(--color-accent-dark);
+    border-radius: 999px;
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* --- Stats --- */
+.stat {
+    text-align: center;
+}
+
+.stat__number {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: var(--fs-2xl);
+    font-weight: 700;
+    color: var(--color-accent);
+}
+
+.stat__label {
+    font-size: var(--fs-sm);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.section:not(.section--dark) .stat__label {
+    color: var(--color-muted);
+}
+
+.section:not(.section--dark) .stat__number {
+    color: var(--color-primary);
+}
+
+/* --- Page header banner --- */
+.page-header {
+    position: relative;
+    padding-block: var(--space-9);
+    background-color: var(--color-primary);
+    background-image:
+        linear-gradient(135deg,
+            rgba(10, 31, 51, 0.94) 0%,
+            rgba(15, 43, 70, 0.82) 55%,
+            rgba(29, 74, 117, 0.72) 100%);
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+}
+
+.page-header__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin-inline: auto;
+}
+
+.page-header h1 {
+    color: #fff;
+}
+
+.page-header__lead {
+    margin-top: var(--space-4);
+    font-size: var(--fs-md);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* --- Breadcrumbs --- */
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    font-size: var(--fs-sm);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.breadcrumb a {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.breadcrumb a:hover {
+    color: var(--color-accent-light);
+}
+
+.breadcrumb__sep::before {
+    content: '/';
+    margin-right: var(--space-2);
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.breadcrumb__current {
+    color: var(--color-accent-light);
+}
+
+/* --- CTA band --- */
+.cta-band {
+    padding-block: var(--space-8);
+    background-color: var(--color-bg-dark);
+    background-image:
+        linear-gradient(120deg,
+            rgba(10, 31, 51, 0.95) 0%,
+            rgba(29, 74, 117, 0.85) 100%);
+    color: #fff;
+    text-align: center;
+}
+
+.cta-band__title {
+    margin-bottom: var(--space-3);
+    color: #fff;
+}
+
+.cta-band__text {
+    max-width: 620px;
+    margin: 0 auto var(--space-5);
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.cta-band__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-4);
+}
+
+/* --- Prose (inner page body copy) --- */
+.prose {
+    max-width: 760px;
+}
+
+.prose h2 { margin: var(--space-6) 0 var(--space-3); }
+.prose h3 { margin: var(--space-5) 0 var(--space-2); }
+.prose ul,
+.prose ol {
+    margin: 0 0 var(--space-4);
+    padding-left: var(--space-5);
+    list-style: disc;
+}
+
+.prose ol {
+    list-style: decimal;
+}
+
+.prose li {
+    margin-bottom: var(--space-2);
+}
+
+/* --- Accordion --- */
+.accordion {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.accordion__item + .accordion__item {
+    border-top: 1px solid var(--color-border);
+}
+
+.accordion__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    width: 100%;
+    padding: var(--space-4) var(--space-5);
+    background-color: var(--color-bg);
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-ink);
+}
+
+.accordion__trigger:hover {
+    background-color: var(--color-bg-alt);
+}
+
+.accordion__icon {
+    flex-shrink: 0;
+    color: var(--color-accent-dark);
+    transition: transform var(--transition);
+}
+
+.accordion__trigger[aria-expanded='true'] .accordion__icon {
+    transform: rotate(45deg);
+}
+
+.accordion__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--transition);
+}
+
+.accordion__panel[data-open='true'] {
+    grid-template-rows: 1fr;
+}
+
+.accordion__panel-inner {
+    overflow: hidden;
+}
+
+.accordion__panel p {
+    margin: 0;
+    padding: 0 var(--space-5) var(--space-5);
+    color: var(--color-muted);
+}
+
+/* --- Under development notice --- */
+.toast {
+    position: fixed;
+    /* Bottom-left: the back-to-top button already owns the bottom-right
+       corner, and the two must never overlap. */
+    left: var(--space-5);
+    bottom: var(--space-5);
+    z-index: 120;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    max-width: min(360px, calc(100vw - var(--space-5) * 2));
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-primary);
+    color: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity var(--transition), transform var(--transition);
+}
+
+.toast[hidden] {
+    display: none;
+}
+
+.toast.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast__dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+}
+
+.toast__text {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.toast__close {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-right: calc(var(--space-2) * -1);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-md);
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color var(--transition), background-color var(--transition);
+}
+
+.toast__close:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* --- Footer --- */
+.footer {
+    background-color: var(--color-primary-dark);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer__grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
+    gap: var(--space-6);
+    padding-block: var(--space-8);
+}
+
+.footer__heading {
+    margin-bottom: var(--space-4);
+    font-size: var(--fs-base);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.footer__links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    font-size: var(--fs-sm);
+}
+
+.footer__links a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer__links a:hover {
+    color: var(--color-accent-light);
+}
+
+.footer__blurb {
+    margin-top: var(--space-4);
+    max-width: 34ch;
+    font-size: var(--fs-sm);
+}
+
+.brand--footer .brand__name {
+    color: #fff;
+}
+
+.brand--footer .brand__tagline {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.brand--footer .brand__mark {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* <address> is italic by default in every browser. */
+.footer__col--contact {
+    font-style: normal;
+}
+
+.footer__col--contact .footer__links li:first-child {
+    max-width: 28ch;
+}
+
+.footer__bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer__bar-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-block: var(--space-5);
+    font-size: var(--fs-xs);
+}
+
+.footer__legal {
+    display: flex;
+    gap: var(--space-5);
+}
+
+.footer__legal a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* --- Back to top --- */
+.back-to-top {
+    position: fixed;
+    right: var(--space-5);
+    bottom: var(--space-5);
+    z-index: 90;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    background-color: var(--color-primary);
+    color: #fff;
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+.back-to-top:hover {
+    background-color: var(--color-accent-dark);
+    color: var(--color-primary-dark);
+    transform: translateY(-3px);
+}
+
+.back-to-top[hidden] {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   6. Under development page
+   -------------------------------------------------------------------------- */
+
+/*
+  The two buttons on .empty-state. Deliberately not .cta-band__actions, which
+  is tuned for a dark background where btn--ghost-light is meant to be used.
+*/
+.dev-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-4);
+}
+
+.dev-live-head {
+    margin-top: var(--space-7);
+    margin-bottom: var(--space-5);
+}
+
+.dev-live-head .section__title {
+    margin-bottom: 0;
+}
+
+/* These quicklinks carry no icon, so the text needs a little breathing room. */
+.quicklink:not(:has(.quicklink__icon)) .quicklink__text {
+    padding-left: var(--space-1);
+}
+
+/* --------------------------------------------------------------------------
+   7. Utilities
+   -------------------------------------------------------------------------- */
+.text-center { text-align: center; }
+.mt-0 { margin-top: 0; }
+.mb-0 { margin-bottom: 0; }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-5 { margin-bottom: var(--space-5); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-7 { margin-bottom: var(--space-7); }
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   8. Responsive
+
+   Two concerns, kept apart on purpose:
+
+     - The navigation collapses at 1199px. Nine links plus the brand and the
+       Apply button need about 1100px, and .container stops growing at
+       1200px, so between 1024 and 1200 the bar had roughly 10px of slack and
+       overflowed. Below 1200 it becomes the panel menu.
+     - Page layout steps down at 1024 / 768 / 560 / 480.
+
+   1199 is mirrored in static/js/main.js. Change both together.
+   -------------------------------------------------------------------------- */
+
+/*
+  Below 1200px the brand gives up its tagline - it is the widest part of the
+  header and purely decorative - which is what buys the panel menu enough room.
+*/
+@media (max-width: 1199px) {
+    .brand__tagline {
+        display: none;
+    }
+
+    .brand__mark {
+        width: 44px;
+        height: 44px;
+        font-size: var(--fs-md);
+    }
+
+    .brand__name {
+        font-size: var(--fs-base);
+    }
+
+    .header__inner {
+        gap: var(--space-4);
+    }
+
+    /* Slide-down panel */
+    .nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        max-height: 0;
+        overflow-y: auto;
+        /* Without this the closed panel is still in the tab order: a keyboard
+           user tabbed straight into links they could not see. */
+        visibility: hidden;
+        background-color: var(--color-bg);
+        border-bottom: 1px solid var(--color-border);
+        box-shadow: var(--shadow);
+        transition: max-height var(--transition), visibility var(--transition);
+    }
+
+    .nav.is-open {
+        /* vh first, then dvh: on a phone the dynamic viewport is the correct
+           one, but dvh alone would drop the rule on an older browser and the
+           menu could never open. */
+        max-height: calc(100vh - var(--header-height));
+        max-height: calc(100dvh - var(--header-height));
+        visibility: visible;
+    }
+
+    .nav__list {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: var(--space-3);
+    }
+
+    .nav__link {
+        padding: var(--space-3) var(--space-4);
+        border-radius: var(--radius);
+    }
+
+    .nav__link.is-active {
+        background-color: var(--color-bg-alt);
+        box-shadow: inset 3px 0 0 var(--color-accent);
+    }
+
+    /*
+      Dropdowns stop floating and become collapsible blocks in the flow.
+      left/right: auto overrides the desktop edge alignment, since in a
+      scrolling panel an absolutely positioned child would be clipped.
+    */
+    .nav__item--parent .subnav {
+        position: static;
+        min-width: 0;
+        max-height: 0;
+        padding: 0 0 0 var(--space-4);
+        border: 0;
+        border-left: 2px solid var(--color-border);
+        border-radius: 0;
+        box-shadow: none;
+        overflow: hidden;
+        opacity: 1;
+        transform: none;
+        transition: max-height var(--transition), visibility var(--transition);
+    }
+
+    .nav__item--parent .subnav.is-open {
+        max-height: 420px;
+        padding-block: var(--space-2);
+    }
+
+    /* A closed dropdown must stay inert: no links in the tab order */
+    .nav__item--parent .subnav:not(.is-open) {
+        visibility: hidden;
+    }
+
+    /* Hover opened these by opacity only, leaving them visibility:hidden. */
+    .nav__item--parent:hover .subnav,
+    .nav__item--parent:focus-within .subnav {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav__item--parent .subnav .nav__link {
+        padding: var(--space-2) var(--space-3);
+        font-size: var(--fs-sm);
+    }
+
+    .nav__item--parent .subnav .nav__link:hover {
+        padding-left: var(--space-3);
+    }
+
+    .nav-toggle {
+        display: flex;
+    }
+}
+
+/*
+  1200-1360px: the container is already at its maximum here, so the desktop
+  bar is at its tightest. Trim the nav padding and the row gap rather than
+  dropping a level the visitor can see.
+*/
+@media (min-width: 1200px) and (max-width: 1360px) {
+    .nav__link {
+        padding-inline: 0.6rem;
+    }
+
+    .header__inner {
+        gap: var(--space-4);
+    }
+}
+
+/* Tablet: two-up grids, stacked split, two-up footer */
+@media (max-width: 1024px) {
+    .grid--3 { grid-template-columns: repeat(2, 1fr); }
+
+    .grid--4 { grid-template-columns: repeat(2, 1fr); }
+
+    .quicklinks {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .split {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+    }
+
+    .notice-detail {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+    }
+
+    .notice-detail__aside {
+        position: static;
+    }
+
+    /* Stacked, the four-row detail list pushed the notice text a long way
+       down the screen. Two columns keeps it compact. */
+    .detail-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: var(--space-5);
+    }
+
+    .stats-band__inner {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile: single column everywhere */
+@media (max-width: 768px) {
+    h1 { font-size: var(--fs-2xl); }
+    h2 { font-size: var(--fs-xl); }
+    h3 { font-size: var(--fs-lg); }
+
+    .grid--2,
+    .grid--3,
+    .grid--4 {
+        grid-template-columns: 1fr;
+    }
+
+    .quicklinks,
+    .stats-band__inner,
+    .notice-nav {
+        grid-template-columns: 1fr;
+    }
+
+    /* Stack the search bar above the filters */
+    .notice-toolbar__filters {
+        width: 100%;
+    }
+
+    .notice-toolbar__filters select,
+    .notice-toolbar__filters .btn {
+        flex: 1 1 auto;
+    }
+
+    .notice-nav__item--next {
+        text-align: left;
+    }
+
+    /* Stack the section heading above its button */
+    .section__head--row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .section {
+        padding-block: var(--space-7);
+    }
+
+    .page-header {
+        padding-block: var(--space-7);
+    }
+
+    .cta-band {
+        padding-block: var(--space-7);
+    }
+
+    /* The contact strip is the first thing to go on narrow screens */
+    .topbar__meta {
+        display: none;
+    }
+
+    .footer__bar-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /*
+      iOS Safari zooms the viewport when a focused control is under 16px, and
+      the notice filters are 14px.
+    */
+    .notice-toolbar input[type='search'],
+    .notice-toolbar select {
+        font-size: 1rem;
+    }
+
+    .notice-toolbar__filters .btn {
+        min-width: 0;
+    }
+
+    .hero__lead {
+        font-size: var(--fs-base);
+    }
+}
+
+@media (max-width: 560px) {
+    /* Reclaim horizontal room on the narrowest phones */
+    .container {
+        padding-inline: var(--space-4);
+    }
+
+    .footer__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-5);
+    }
+
+    .header__cta {
+        padding: 0.5rem 0.9rem;
+        font-size: var(--fs-xs);
+    }
+
+    .header__cta-long {
+        display: none;
+    }
+
+    /* Notice and event rows: date block above the text */
+    .notice-row,
+    .event {
+        flex-wrap: wrap;
+        gap: var(--space-4);
+    }
+
+    .notice-row__body,
+    .event__body {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+
+    .nav-toggle {
+        width: 40px;
+        padding: 0 8px;
+    }
+
+    .cta-band__actions .btn,
+    .hero__actions .btn {
+        width: 100%;
+    }
+
+    /* Each filter gets a full row; the two buttons share one. */
+    .notice-toolbar__filters select {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .notice-toolbar__filters .btn {
+        flex: 1 1 0;
+    }
+
+    .pagination__link {
+        min-width: 38px;
+        height: 38px;
+    }
+
+    .back-to-top {
+        right: var(--space-4);
+        bottom: var(--space-4);
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Phones at 320-420px: headings and vertical rhythm tighten a further step */
+@media (max-width: 480px) {
+    h1 { font-size: var(--fs-xl); }
+    h2 { font-size: var(--fs-lg); }
+    h3 { font-size: var(--fs-md); }
+
+    .hero__title {
+        font-size: clamp(1.75rem, 8vw, 2.25rem);
+    }
+
+    .section {
+        padding-block: var(--space-6);
+    }
+
+    .page-header {
+        padding-block: var(--space-6);
+    }
+
+    /* The office-hours line wraps to two lines here; centring it makes that
+       read as deliberate instead of clipped. */
+    .topbar__inner {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .empty-state {
+        padding: var(--space-6) var(--space-4);
+    }
+
+    /*
+      The toast spans the full width here, so it would sit on top of the
+      back-to-top button in the corner. Lift it clear instead.
+    */
+    .toast {
+        left: var(--space-4);
+        right: var(--space-4);
+        max-width: none;
+        bottom: calc(var(--space-4) + 52px);
+    }
+}
+
+/* Respect the OS setting - no animation for users who asked for none */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+
+@media print {
+    .topbar,
+    .header,
+    .footer,
+    .back-to-top,
+    .nav-toggle {
+        display: none;
+    }
+
+    body {
+        color: #000;
+        background: #fff;
+    }
+
+    /* The notice detail page prints through a two-column grid, and both the
+       dark banner and the download card waste a sheet of ink. */
+    .notice-detail {
+        grid-template-columns: 1fr;
+        gap: var(--space-5);
+    }
+
+    .download-card,
+    .notice-detail__aside .btn,
+    .notice-nav {
+        display: none;
+    }
+
+    .page-header {
+        padding-block: 0 0 var(--space-5);
+        background: none;
+        color: #000;
+        text-align: left;
+    }
+
+    .page-header h1,
+    .page-header__lead,
+    .breadcrumb a,
+    .breadcrumb__current,
+    .eyebrow {
+        color: #000;
+    }
+
+    .section {
+        padding-block: var(--space-4);
+    }
+
+    .section--alt,
+    .section--dark,
+    .cta-band {
+        background: none;
+        color: #000;
+    }
+}

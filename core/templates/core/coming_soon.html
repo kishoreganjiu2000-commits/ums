@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }} — {{ SITE_NAME }}{% endblock %}
+
+{% block meta_description %}{{ page_title }} at {{ SITE_NAME }} — this section is still being built.{% endblock %}
+
+{% comment %}
+One shared placeholder for every section that has a URL but no page yet.
+
+Reuses .page-header, .empty-state, .prose and the standard buttons, so it looks
+like the rest of the site rather than a stripped-down error. Nothing here needs
+editing to launch a new section - the section name and summary come from
+core.views.PENDING_SECTIONS.
+{% endcomment %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="container page-header__inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'core:home' %}">Home</a>
+            <span class="breadcrumb__sep"></span>
+            <span class="breadcrumb__current">{{ page_title }}</span>
+        </nav>
+
+        <span class="eyebrow">Under development</span>
+        <h1>{{ page_title }}</h1>
+        <p class="page-header__lead">{{ page_summary }}</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="empty-state">
+            <h2>This section is still being built</h2>
+            <p>
+                We are writing this part of the site now. Nothing is broken -
+                it simply has not been published yet, and we would rather show
+                you this than a broken page.
+            </p>
+
+            <div class="dev-actions">
+                <a class="btn btn--primary" href="{% url 'core:home' %}">Back to Home</a>
+                <a class="btn btn--outline" href="{% url 'notice:notice_list' %}">Browse Notices</a>
+            </div>
+        </div>
+
+        <div class="section__head section__head--row dev-live-head">
+            <div>
+                <span class="eyebrow">Available now</span>
+                <h2 class="section__title">What you can use today</h2>
+            </div>
+            <a class="btn btn--outline" href="{% url 'core:home' %}">Go to homepage</a>
+        </div>
+
+        <ul class="quicklinks">
+            <li>
+                <a class="quicklink" href="{% url 'core:home' %}">
+                    <span class="quicklink__text">
+                        <span class="quicklink__label">Home</span>
+                        <span class="quicklink__sub">Programmes, campus and latest updates</span>
+                    </span>
+                    <span class="quicklink__arrow" aria-hidden="true">&rsaquo;</span>
+                </a>
+            </li>
+            <li>
+                <a class="quicklink" href="{% url 'notice:notice_list' %}">
+                    <span class="quicklink__text">
+                        <span class="quicklink__label">Notice board</span>
+                        <span class="quicklink__sub">Examinations, admissions and campus notices</span>
+                    </span>
+                    <span class="quicklink__arrow" aria-hidden="true">&rsaquo;</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+{% endblock %}

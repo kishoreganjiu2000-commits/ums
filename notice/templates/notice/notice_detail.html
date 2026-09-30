@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}{{ notice.title }} — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="container page-header__inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'core:home' %}">Home</a>
+            <span class="breadcrumb__sep"></span>
+            <a href="{% url 'notice:notice_list' %}">Notice</a>
+            <span class="breadcrumb__sep"></span>
+            <span class="breadcrumb__current">{{ notice.category.name }}</span>
+        </nav>
+
+        <span class="eyebrow">{{ notice.category.name }}</span>
+        <h1>{{ notice.title }}</h1>
+
+        <p class="page-header__lead">
+            Issued {{ notice.published_date|date:"j F Y" }}
+            {% if notice.reference_code %} &middot; Ref. {{ notice.reference_code }}{% endif %}
+        </p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container notice-detail">
+
+        <div class="notice-detail__aside">
+            {% if file_available %}
+                <div class="download-card">
+                    <p class="download-card__label">Official document</p>
+                    <a class="btn btn--accent btn--block"
+                       href="{% url 'notice:notice_download' notice.slug %}">
+                        Download PDF
+                    </a>
+                    <p class="download-card__hint">
+                        A copy of this notice in PDF format, as issued.
+                    </p>
+                </div>
+            {% endif %}
+
+            <dl class="detail-list">
+                <div>
+                    <dt>Category</dt>
+                    <dd>{{ notice.category.name }}</dd>
+                </div>
+                <div>
+                    <dt>Issued</dt>
+                    <dd>{{ notice.published_date|date:"j F Y" }}</dd>
+                </div>
+                {% if notice.reference_code %}
+                    <div>
+                        <dt>Reference</dt>
+                        <dd>{{ notice.reference_code }}</dd>
+                    </div>
+                {% endif %}
+                <div>
+                    <dt>Last updated</dt>
+                    <dd>{{ notice.updated_at|date:"j M Y" }}</dd>
+                </div>
+            </dl>
+
+            <button type="button" class="btn btn--outline btn--block" onclick="window.print()">
+                Print this notice
+            </button>
+        </div>
+
+        <article class="notice-detail__body prose">
+            <p>{{ notice.description|linebreaksbr }}</p>
+        </article>
+    </div>
+</section>
+
+<section class="section section--alt">
+    <div class="container">
+        <nav class="notice-nav" aria-label="Other notices">
+            {% if newer_notice %}
+                <a class="notice-nav__item" href="{{ newer_notice.get_absolute_url }}">
+                    <span class="notice-nav__label">Newer notice</span>
+                    <span class="notice-nav__title">{{ newer_notice.title }}</span>
+                </a>
+            {% else %}
+                <span class="notice-nav__item is-empty">This is the newest notice</span>
+            {% endif %}
+
+            {% if older_notice %}
+                <a class="notice-nav__item notice-nav__item--next" href="{{ older_notice.get_absolute_url }}">
+                    <span class="notice-nav__label">Older notice</span>
+                    <span class="notice-nav__title">{{ older_notice.title }}</span>
+                </a>
+            {% else %}
+                <span class="notice-nav__item is-empty">This is the oldest notice</span>
+            {% endif %}
+        </nav>
+    </div>
+</section>
+
+{% endblock %}

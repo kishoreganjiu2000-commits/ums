@@ -1,0 +1,61 @@
+<footer class="footer">
+    <div class="container footer__grid">
+        <section class="footer__col footer__col--about">
+            <a class="brand brand--footer" href="{% url 'core:home' %}">
+                <span class="brand__mark" aria-hidden="true">{{ SITE_SHORT_NAME }}</span>
+                <span class="brand__text">
+                    <span class="brand__name">{{ SITE_NAME }}</span>
+                    <span class="brand__tagline">{{ SITE_TAGLINE }}</span>
+                </span>
+            </a>
+            <p class="footer__blurb">
+                A modern institution committed to accessible learning, rigorous
+                research, and graduates who lead in their fields.
+            </p>
+        </section>
+
+        <nav class="footer__col" aria-label="Explore">
+            <h2 class="footer__heading">Explore</h2>
+            <ul class="footer__links">
+                <li><a href="{% url 'core:about' %}">About</a></li>
+                <li><a href="{% url 'core:academics' %}">Academics</a></li>
+                <li><a href="{% url 'core:research' %}">Research</a></li>
+                <li><a href="{% url 'core:students' %}">Students</a></li>
+            </ul>
+        </nav>
+
+        <nav class="footer__col" aria-label="Quick links">
+            <h2 class="footer__heading">Quick Links</h2>
+            <ul class="footer__links">
+                <li><a href="{% url 'core:admission' %}">Admission</a></li>
+                <li><a href="{% url 'core:news_events' %}">News &amp; Events</a></li>
+                <li><a href="{% url 'notice:notice_list' %}">Notice</a></li>
+                <li><a href="{% url 'core:career' %}">Careers</a></li>
+            </ul>
+        </nav>
+
+        <address class="footer__col footer__col--contact">
+            <h2 class="footer__heading">Contact</h2>
+            <ul class="footer__links">
+                <li>{{ SITE_ADDRESS }}</li>
+                <li><a href="tel:{{ SITE_PHONE }}">{{ SITE_PHONE }}</a></li>
+                <li><a href="mailto:{{ SITE_EMAIL }}">{{ SITE_EMAIL }}</a></li>
+            </ul>
+        </address>
+    </div>
+
+    <div class="footer__bar">
+        <div class="container footer__bar-inner">
+            <p>&copy; {% now "Y" %} {{ SITE_NAME }}. All rights reserved.</p>
+            {% comment %}
+              Placeholder links. They have no destination yet, so main.js
+              intercepts them and shows the "under development" notice. The
+              data-dev attribute is the wording shown for that link.
+            {% endcomment %}
+            <ul class="footer__legal">
+                <li><a href="#" data-dev="The privacy policy is still being written">Privacy</a></li>
+                <li><a href="#" data-dev="The terms of use are still being written">Terms</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>

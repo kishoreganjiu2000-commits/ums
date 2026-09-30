@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Page not found — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container page-header__inner">
+        <span class="eyebrow">Error 404</span>
+        <h1>Page not found</h1>
+        <p class="page-header__lead">The page you are looking for has moved or no longer exists.</p>
+        <div class="cta-band__actions">
+            <a class="btn btn--accent" href="{% url 'core:home' %}">Back to Home</a>
+            <a class="btn btn--ghost-light" href="{% url 'notice:notice_list' %}">Browse Notices</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container prose">
+        <h2>Try one of these instead</h2>
+        <ul>
+            <li><a href="{% url 'core:about' %}">About Jholo University</a></li>
+            <li><a href="{% url 'core:academics' %}">Academics and programs</a></li>
+            <li><a href="{% url 'core:admission' %}">Admission and fees</a></li>
+            <li><a href="{% url 'core:contact' %}">Contact the university</a></li>
+        </ul>
+    </div>
+</section>
+{% endblock %}

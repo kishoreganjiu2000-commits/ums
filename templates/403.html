@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Access denied — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container page-header__inner">
+        <span class="eyebrow">Error 403</span>
+        <h1>Access denied</h1>
+        <p class="page-header__lead">You do not have permission to view this page. If you believe this is a mistake, please contact the registrar.</p>
+        <div class="cta-band__actions">
+            <a class="btn btn--accent" href="{% url 'core:home' %}">Back to Home</a>
+            <a class="btn btn--ghost-light" href="{% url 'core:contact' %}">Contact the university</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container prose">
+        <h2>Where to go instead</h2>
+        <ul>
+            <li><a href="{% url 'notice:notice_list' %}">Public notices</a></li>
+            <li><a href="{% url 'core:academics' %}">Academics and programs</a></li>
+            <li><a href="{% url 'core:admission' %}">Admission and fees</a></li>
+        </ul>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% comment %}
+Primary site header: brand, navigation, one call to action.
+
+The navigation list comes from SITE_NAV in core/context_processors.py and is
+rendered through the recursive partials/nav_item.html. No markup here changes
+when the site grows a new page.
+{% endcomment %}
+<header class="header" id="site-header">
+    <div class="container header__inner">
+        <a class="brand" href="{% url 'core:home' %}">
+            <span class="brand__mark" aria-hidden="true">{{ SITE_SHORT_NAME }}</span>
+            <span class="brand__text">
+                <span class="brand__name">{{ SITE_NAME }}</span>
+                <span class="brand__tagline">{{ SITE_TAGLINE }}</span>
+            </span>
+        </a>
+
+        <nav class="nav" id="primary-nav" aria-label="Primary">
+            <ul class="nav__list">
+                {% for item in SITE_NAV %}
+                    {% include "partials/nav_item.html" with item=item %}
+                {% endfor %}
+            </ul>
+        </nav>
+
+        {% comment %}
+          The one call to action. The word "Now" is dropped below 560px to keep
+          the row on one line, rather than adding a second button for mobile.
+        {% endcomment %}
+        <a class="btn btn--accent header__cta" href="{% url 'core:admission' %}">Apply<span class="header__cta-long">&nbsp;Now</span></a>
+
+        <button type="button"
+                class="nav-toggle"
+                id="nav-toggle"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                aria-controls="primary-nav">
+            <span class="nav-toggle__bar" aria-hidden="true"></span>
+            <span class="nav-toggle__bar" aria-hidden="true"></span>
+            <span class="nav-toggle__bar" aria-hidden="true"></span>
+        </button>
+    </div>
+</header>

@@ -1,0 +1,14 @@
+{% comment %}
+Thin utility strip above the main header. Informational only - no calls to
+action here, because the header carries the single Apply Now button.
+{% endcomment %}
+<div class="topbar">
+    <div class="container topbar__inner">
+        <p class="topbar__note">Office Hours: Saturday &ndash; Thursday, 9:00 AM &ndash; 5:00 PM</p>
+
+        <ul class="topbar__meta">
+            <li><a href="tel:{{ SITE_PHONE }}">{{ SITE_PHONE }}</a></li>
+            <li><a href="mailto:{{ SITE_EMAIL }}">{{ SITE_EMAIL }}</a></li>
+        </ul>
+    </div>
+</div>

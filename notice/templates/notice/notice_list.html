@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Notice Board — {{ SITE_NAME }}{% endblock %}
+
+{% block meta_description %}Official notices from {{ SITE_NAME }}: examinations, admission, research and campus announcements.{% endblock %}
+
+{% comment %}
+`q` is carried between search and pagination so page 2 keeps the filters.
+{% endcomment %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="container page-header__inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'core:home' %}">Home</a>
+            <span class="breadcrumb__sep"></span>
+            <span class="breadcrumb__current">Notice</span>
+        </nav>
+
+        <span class="eyebrow">Notice Board</span>
+        <h1>Notices</h1>
+        <p class="page-header__lead">
+            Official announcements from the registrar, admissions office and
+            faculties. Published notices remain available here permanently.
+        </p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+
+        {# ------------------------------------------------------ Search bar #}
+        <form method="get" class="notice-toolbar" role="search">
+            <div class="notice-toolbar__search">
+                <label class="visually-hidden" for="id_q">Search notices</label>
+                <input type="search" id="id_q" name="q"
+                       value="{{ form.q.value|default:'' }}"
+                       placeholder="Search title, description or reference…">
+            </div>
+
+            <div class="notice-toolbar__filters">
+                <label class="visually-hidden" for="id_category">Category</label>
+                {{ form.category }}
+
+                <label class="visually-hidden" for="id_year">Year</label>
+                {{ form.year }}
+
+                <button type="submit" class="btn btn--primary">Search</button>
+
+                {% if form.has_query %}
+                    <a class="btn btn--outline" href="{% url 'notice:notice_list' %}">Reset</a>
+                {% endif %}
+            </div>
+        </form>
+
+        <p class="notice-resultcount">
+            {{ result_count }} notice{{ result_count|pluralize }}
+            {% if form.q.value %} matching &ldquo;{{ form.q.value }}&rdquo;{% endif %}
+        </p>
+
+        {# --------------------------------------------------- Pinned notices #}
+        {% if form.has_query %}
+            {% for notice in notices %}
+                {% if notice.is_pinned %}
+                    <div class="pinned">
+                        <span class="tag">Pinned</span>
+                        <a href="{{ notice.get_absolute_url }}">{{ notice.title }}</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {# --------------------------------------------------------- Results #}
+        {% if notices %}
+            <ul class="notice-list">
+                {% for notice in notices %}
+                    <li class="notice-row">
+                        <div class="notice-row__date">
+                            <span class="notice-row__day">{{ notice.published_date|date:"d" }}</span>
+                            <span class="notice-row__month">{{ notice.published_date|date:"M" }}</span>
+                            <span class="notice-row__year">{{ notice.published_date|date:"Y" }}</span>
+                        </div>
+
+                        <div class="notice-row__body">
+                            <p class="meta">
+                                <span class="tag">{{ notice.category.name }}</span>
+                                {% if notice.reference_code %}
+                                    <span class="meta__dot">{{ notice.reference_code }}</span>
+                                {% endif %}
+                                <span class="meta__dot">{{ notice.published_date|date:"j F Y" }}</span>
+                                {% if notice.is_pinned %}
+                                    <span class="tag tag--accent">Pinned</span>
+                                {% endif %}
+                            </p>
+
+                            <h2 class="notice-row__title">
+                                <a href="{{ notice.get_absolute_url }}">{{ notice.title }}</a>
+                            </h2>
+
+                            <p class="notice-row__summary">
+                                {{ notice.description|truncatechars:180 }}
+                            </p>
+
+                            {% if notice.has_attachment %}
+                                <a class="notice-row__download"
+                                   href="{% url 'notice:notice_download' notice.slug %}">
+                                    Download PDF
+                                </a>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            {# ---------------------------------------------------- Pagination #}
+            {% if is_paginated %}
+                <nav class="pagination" aria-label="Notice pages">
+                    {% if page_obj.has_previous %}
+                        <a class="pagination__link"
+                           href="?{% if form.q.value %}q={{ form.q.value|urlencode }}&amp;{% endif %}{% if form.category.value %}category={{ form.category.value }}&amp;{% endif %}{% if form.year.value %}year={{ form.year.value }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">Previous</a>
+                    {% else %}
+                        <span class="pagination__link is-disabled">Previous</span>
+                    {% endif %}
+
+                    {% for num in paginator.page_range %}
+                        {% if num == page_obj.number %}
+                            <span class="pagination__link is-current" aria-current="page">{{ num }}</span>
+                        {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+                            <a class="pagination__link"
+                               href="?{% if form.q.value %}q={{ form.q.value|urlencode }}&amp;{% endif %}{% if form.category.value %}category={{ form.category.value }}&amp;{% endif %}{% if form.year.value %}year={{ form.year.value }}&amp;{% endif %}page={{ num }}">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a class="pagination__link"
+                           href="?{% if form.q.value %}q={{ form.q.value|urlencode }}&amp;{% endif %}{% if form.category.value %}category={{ form.category.value }}&amp;{% endif %}{% if form.year.value %}year={{ form.year.value }}&amp;{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+                    {% else %}
+                        <span class="pagination__link is-disabled">Next</span>
+                    {% endif %}
+                </nav>
+            {% endif %}
+
+        {# ------------------------------------------------------- Empty state #}
+        {% else %}
+            <div class="empty-state">
+                <h2>No notices found</h2>
+                <p>
+                    {% if form.has_query %}
+                        Nothing matched your search. Try a different keyword or
+                        clear the filters.
+                    {% else %}
+                        There are no published notices at the moment.
+                    {% endif %}
+                </p>
+                {% if form.has_query %}
+                    <a class="btn btn--primary" href="{% url 'notice:notice_list' %}">Clear filters</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

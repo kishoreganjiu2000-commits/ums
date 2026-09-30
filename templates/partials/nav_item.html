@@ -1,0 +1,33 @@
+{% comment %}
+One navigation item, rendered recursively.
+
+Called once per item from header.html, and again from itself for any children.
+An item with its own "children" key renders a dropdown trigger instead of a
+link, so the template handles both cases in one place.
+
+Active state compares item.name against request.resolver_match.url_name, so
+the highlight follows the URL and no view has to pass a flag.
+{% endcomment %}
+
+<li class="nav__item{% if item.children %} nav__item--parent{% endif %}">
+    {% if item.children %}
+        <button type="button"
+                class="nav__link nav__disclosure"
+                aria-expanded="false"
+                aria-controls="{{ item.id }}"
+                data-nav-toggle>
+            <span>{{ item.label }}</span>
+            <span class="nav__caret" aria-hidden="true"></span>
+        </button>
+
+        <ul class="subnav" id="{{ item.id }}" data-nav-panel>
+            {% for child in item.children %}
+                {% include "partials/nav_item.html" with item=child %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <a class="nav__link{% if item.name == request.resolver_match.url_name %} is-active{% endif %}"
+           href="{{ item.url }}"
+           {% if item.name == request.resolver_match.url_name %}aria-current="page"{% endif %}>{{ item.label }}</a>
+    {% endif %}
+</li>
