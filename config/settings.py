@@ -84,9 +84,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
+# On Railway the container filesystem is ephemeral, so SQLite must live on a
+# persistent volume mounted at DATA_DIR (/data) instead of inside the app dir.
+DATA_DIR = Path(os.environ.get('DATA_DIR', BASE_DIR))
+
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
+        default='sqlite:///' + str(DATA_DIR / 'db.sqlite3'),
         conn_max_age=600,
         conn_health_checks=True,
     )
@@ -148,7 +152,7 @@ STORAGES = {
 
 MEDIA_URL = 'media/'
 
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = DATA_DIR / 'media'
 
 
 # Default primary key field type
