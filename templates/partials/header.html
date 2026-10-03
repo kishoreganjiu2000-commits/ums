@@ -1,3 +1,4 @@
+{% load static %}
 {% comment %}
 Primary site header: brand, navigation, one call to action.
 
@@ -8,9 +9,16 @@ when the site grows a new page.
 <header class="header" id="site-header">
     <div class="container header__inner">
         <a class="brand" href="{% url 'core:home' %}">
-            <span class="brand__mark" aria-hidden="true">{{ SITE_SHORT_NAME }}</span>
+            <span class="brand__mark" aria-hidden="true">
+                {% comment %}
+                  Above the fold and the page's largest paint, so it loads
+                  eagerly. alt is empty because the wrapper is aria-hidden and
+                  the visible brand__name already carries the name.
+                {% endcomment %}
+                <img src="{% static 'img/logo.jpeg' %}" alt="" width="52" height="48" decoding="async" fetchpriority="high">
+            </span>
             <span class="brand__text">
-                <span class="brand__name">{{ SITE_NAME }}</span>
+                <span class="brand__name">{{ SITE_SHORT_NAME }}</span>
                 <span class="brand__tagline">{{ SITE_TAGLINE }}</span>
             </span>
         </a>

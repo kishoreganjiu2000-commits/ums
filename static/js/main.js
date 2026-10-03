@@ -458,12 +458,287 @@
         });
     }
 
+    /* ----------------------------------------------------------------------
+       Carousel
+
+       Vanilla, no dependencies. Progressive enhancement: the markup is a plain
+       stacked list, so this function adds the is-ready class and only then
+       takes over. Everything below is driven off data-carousel attributes, so
+       the same file serves any template that uses the pattern.
+
+       Non-current slides get aria-hidden and, where the browser supports it,
+       inert - otherwise a keyboard user would tab into a message they cannot
+       see.
+       ---------------------------------------------------------------------- */
+    var CAROUSEL_INTERVAL = 7000;
+    var SWIPE_THRESHOLD = 45;
+
+    function initCarousel() {
+        var carousels = document.querySelectorAll('[data-carousel]');
+
+        carousels.forEach(function (carousel) {
+            var viewport = carousel.querySelector('[data-carousel-viewport]');
+            var track = carousel.querySelector('[data-carousel-track]');
+            var slides = carousel.querySelectorAll('[data-carousel-slide]');
+            var dots = carousel.querySelectorAll('[data-carousel-dot]');
+            var prev = carousel.querySelector('[data-carousel-prev]');
+            var next = carousel.querySelector('[data-carousel-next]');
+            var status = carousel.querySelector('[data-carousel-status]');
+
+            if (!track || !viewport || slides.length < 2) {
+                return;
+            }
+
+            var supportsInert = 'inert' in HTMLElement.prototype;
+            var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            var total = slides.length;
+            var index = 0;
+            var timer = null;
+
+            function render(announce) {
+                track.style.transform = 'translate3d(' + (-index * 100) + '%, 0, 0)';
+
+                slides.forEach(function (slide, i) {
+                    var isCurrent = i === index;
+
+                    slide.classList.toggle('is-current', isCurrent);
+                    slide.setAttribute('aria-hidden', String(!isCurrent));
+
+                    if (supportsInert) {
+                        slide.inert = !isCurrent;
+                    }
+                });
+
+                dots.forEach(function (dot, i) {
+                    dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+                });
+
+                if (announce && status) {
+                    var label = slides[index].getAttribute('aria-label') || '';
+                    var role = slides[index].querySelector('.tag');
+                    status.textContent =
+                        'Message ' + label + (role ? ': ' + role.textContent.trim() : '');
+                }
+            }
+
+            function goTo(target) {
+                // Wrap in both directions so the arrows never dead-end.
+                index = ((target % total) + total) % total;
+                render(true);
+            }
+
+            function stop() {
+                if (timer) {
+                    window.clearInterval(timer);
+                    timer = null;
+                }
+            }
+
+            function start() {
+                stop();
+
+                // Someone who has asked for less motion should get the messages
+                // on demand rather than sliding past on a timer.
+                if (reduceMotion.matches) {
+                    return;
+                }
+
+                timer = window.setInterval(function () {
+                    goTo(index + 1);
+                }, CAROUSEL_INTERVAL);
+            }
+
+            if (prev) {
+                prev.addEventListener('click', function () {
+                    goTo(index - 1);
+                    start();
+                });
+            }
+
+            if (next) {
+                next.addEventListener('click', function () {
+                    goTo(index + 1);
+                    start();
+                });
+            }
+
+            dots.forEach(function (dot, i) {
+                dot.addEventListener('click', function () {
+                    goTo(i);
+                    start();
+                });
+            });
+
+            carousel.addEventListener('keydown', function (event) {
+                if (event.key === 'ArrowLeft') {
+                    event.preventDefault();
+                    goTo(index - 1);
+                } else if (event.key === 'ArrowRight') {
+                    event.preventDefault();
+                    goTo(index + 1);
+                } else {
+                    return;
+                }
+
+                start();
+            });
+
+            // Pause while the visitor is reading or driving the controls.
+            carousel.addEventListener('mouseenter', stop);
+            carousel.addEventListener('mouseleave', start);
+            carousel.addEventListener('focusin', stop);
+            carousel.addEventListener('focusout', start);
+
+            // Swipe. Only a mostly-horizontal drag counts, so a vertical scroll
+            // over the card is not hijacked.
+            var startX = 0;
+            var startY = 0;
+            var tracking = false;
+
+            viewport.addEventListener('touchstart', function (event) {
+                if (event.touches.length !== 1) {
+                    tracking = false;
+                    return;
+                }
+
+                startX = event.touches[0].clientX;
+                startY = event.touches[0].clientY;
+                tracking = true;
+            }, { passive: true });
+
+            viewport.addEventListener('touchend', function (event) {
+                if (!tracking) {
+                    return;
+                }
+
+                tracking = false;
+
+                var touch = event.changedTouches[0];
+                var dx = touch.clientX - startX;
+                var dy = touch.clientY - startY;
+
+                if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) {
+                    return;
+                }
+
+                goTo(dx < 0 ? index + 1 : index - 1);
+                start();
+            }, { passive: true });
+
+            carousel.classList.add('is-ready');
+            render(false);
+            start();
+        });
+    }
+
+    /* ----------------------------------------------------------------------
+       Hero image slider
+
+    The home page hero uses a full-bleed background image carousel.
+       ---------------------------------------------------------------------- */
+    function initHeroSlider() {
+        var slider = document.querySelector('[data-hero-slider]');
+
+        if (!slider) {
+            return;
+        }
+
+        var slides = slider.querySelectorAll('.hero__slide');
+        var track = slider.querySelector('.hero__slide-track');
+        var dots = slider.querySelectorAll('[data-hero-dot]');
+
+        if (!slides.length || !track) {
+            return;
+        }
+
+        var index = 0;
+        var timer = null;
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        function render() {
+            track.style.transform = 'translate3d(' + (-index * 100) + '%, 0, 0)';
+
+            slides.forEach(function (slide, i) {
+                slide.setAttribute('aria-hidden', String(i !== index));
+            });
+
+            dots.forEach(function (dot, i) {
+                dot.classList.toggle('is-active', i === index);
+                dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+            });
+        }
+
+        function stop() {
+            if (timer) {
+                window.clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        function start() {
+            stop();
+
+            if (reduceMotion.matches) {
+                return;
+            }
+
+            timer = window.setInterval(function () {
+                index = (index + 1) % slides.length;
+                render();
+            }, 4500);
+        }
+
+        dots.forEach(function (dot, i) {
+            dot.addEventListener('click', function () {
+                index = i;
+                render();
+                start();
+            });
+        });
+
+        slider.addEventListener('focusin', stop);
+        slider.addEventListener('focusout', start);
+
+        render();
+        start();
+    }
+
+    function initGridReveal() {
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var items = document.querySelectorAll(
+            '.grid > li, .quicklinks > li, .stats-band__inner > .stat, .footer__grid > .footer__col'
+        );
+
+        if (reduceMotion.matches || !('IntersectionObserver' in window) || !items.length) {
+            return;
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) {
+                    return;
+                }
+
+                entry.target.classList.add('grid-item-reveal');
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -24px 0px' });
+
+        items.forEach(function (item, index) {
+            item.style.setProperty('--grid-reveal-delay', (index % 4) * 65 + 'ms');
+            observer.observe(item);
+        });
+    }
+
     /* ---------------------------------------------------------------------- */
 
     function init() {
         initNav();
         initStickyHeader();
         initAccordion();
+        initCarousel();
+        initHeroSlider();
+        initGridReveal();
         initCounters();
         initBackToTop();
         initDevNotice();

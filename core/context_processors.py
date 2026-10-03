@@ -74,11 +74,11 @@ SITE_NAV = _build_nav()
 def site_info(request):
     """University name, tagline, contact details and the navigation tree."""
     return {
-        'SITE_NAME': 'Jholo University',
-        'SITE_SHORT_NAME': 'JU',
+        'SITE_NAME': 'Lakshmipur Science and Technology',
+        'SITE_SHORT_NAME': 'LSTU',
         'SITE_TAGLINE': 'Knowledge in Motion',
         'SITE_PHONE': '+880 1700 000000',
         'SITE_EMAIL': 'info@jholouniversity.edu',
-        'SITE_ADDRESS': 'Jholo University, University Road, Jholo City',
+        'SITE_ADDRESS': 'Lakshmipur Science and Technology, University Road, Lakshmipur',
         'SITE_NAV': SITE_NAV,
     }

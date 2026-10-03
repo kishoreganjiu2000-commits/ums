@@ -14,100 +14,169 @@ then the three content feeds, then numbers, then a final push.
 
 {# ---------------------------------------------------------------- 1. Hero #}
 <section class="hero">
-    <div class="container hero__inner">
-        <p class="eyebrow">Admissions open for Spring 2027</p>
-
-        <h1 class="hero__title">Where curiosity becomes capability</h1>
-
-        <p class="hero__lead">
-            {{ SITE_NAME }} teaches across six faculties with small classes, strong
-            research groups and a graduate network that reaches well beyond the region.
-        </p>
-
-        <div class="hero__actions">
-            <a class="btn btn--accent" href="{% url 'core:admission' %}">Apply Now</a>
-            <a class="btn btn--ghost-light" href="{% url 'core:academics' %}">Explore Programs</a>
+    <div class="hero__background" data-hero-slider aria-label="Featured campus images">
+        <div class="hero__slides">
+            <div class="hero__slide-track">
+                <figure class="hero__slide">
+                    <img src="{% static 'img/hero1.png' %}" alt="University campus view, image 1" width="1600" height="900">
+                </figure>
+                <figure class="hero__slide">
+                    <img src="{% static 'img/hero2.png' %}" alt="University campus view, image 2" width="1600" height="900">
+                </figure>
+                <figure class="hero__slide">
+                    <img src="{% static 'img/hero3.png' %}" alt="University campus view, image 3" width="1600" height="900">
+                </figure>
+                <figure class="hero__slide">
+                    <img src="{% static 'img/hero4.png' %}" alt="University campus view, image 4" width="1600" height="900">
+                </figure>
+                <figure class="hero__slide">
+                    <img src="{% static 'img/hero.png' %}" alt="University campus view, image 5" width="1600" height="900">
+                </figure>
+            </div>
         </div>
 
-        <ul class="hero__facts">
-            <li><strong>38</strong> degree programmes</li>
-            <li><strong>6</strong> faculties</li>
-            <li><strong>12</strong> research centres</li>
-        </ul>
+        <div class="hero__dots" aria-label="Select a background image">
+            <button class="hero__dot is-active" type="button" data-hero-dot="0" aria-label="Show background image 1"></button>
+            <button class="hero__dot" type="button" data-hero-dot="1" aria-label="Show background image 2"></button>
+            <button class="hero__dot" type="button" data-hero-dot="2" aria-label="Show background image 3"></button>
+            <button class="hero__dot" type="button" data-hero-dot="3" aria-label="Show background image 4"></button>
+            <button class="hero__dot" type="button" data-hero-dot="4" aria-label="Show background image 5"></button>
+        </div>
+    </div>
+
+    <div class="container hero__inner">
+        <div class="hero__content">
+            <p class="eyebrow">Admissions open for Spring 2027</p>
+
+            <h1 class="hero__title">Where curiosity becomes capability</h1>
+
+            <p class="hero__lead">
+                {{ SITE_NAME }} teaches across six faculties with small classes, strong
+                research groups and a graduate network that reaches well beyond the region.
+            </p>
+
+            <div class="hero__actions">
+                <a class="btn btn--accent" href="{% url 'core:admission' %}">Apply Now</a>
+                <a class="btn btn--ghost-light" href="{% url 'core:academics' %}">Explore Programs</a>
+            </div>
+
+            <ul class="hero__facts">
+                <li><strong>38</strong> degree programmes</li>
+                <li><strong>6</strong> faculties</li>
+                <li><strong>12</strong> research centres</li>
+            </div>
+        </div>
     </div>
 </section>
 
 {# ------------------------------------------- 2. Leadership (under the hook) #}
 {% comment %}
   Sits immediately after the hero because that is where a visitor looks for
-  who is behind the promise in the headline. The Chancellor line renders only
-  when the data supplies an office, so the Vice-Chancellor card stays clean.
+  who is behind the promise in the headline. The messages run in a carousel:
+  three of them at full width would push every other section off the page.
+
+  The markup is readable before the script arrives - the controls are hidden
+  and the slides stack, so the section is three plain message cards. Adding
+  the is-ready class switches it to a one-at-a-time track.
+
+  The Chancellor line renders only when the data supplies an office, so the
+  Vice-Chancellor card stays clean.
 {% endcomment %}
 <section class="section section--tight leadership">
     <div class="container">
-        <h2 class="visually-hidden">Messages from the Chancellor and the Vice-Chancellor</h2>
+        <h2 class="visually-hidden">Messages from the Chancellor, the Vice-Chancellor and the Education Minister</h2>
 
-        <ul class="grid grid--2 leadership-grid">
-            {% for leader in leaders %}
-                <li>
-                    <article class="card leader-card">
-                        <div class="leader-card__head">
-                            <img class="leader-card__portrait"
-                                 src="{% static leader.portrait %}"
-                                 alt="{{ leader.alt }}"
-                                 width="400"
-                                 height="400"
-                                 loading="lazy"
-                                 decoding="async">
-                            <div class="leader-card__id">
-                                <p class="leader-card__name">{{ leader.name }}</p>
-                                <p class="meta">
-                                    <span class="tag">{{ leader.role }}</span>
-                                </p>
-                                {% if leader.office %}
-                                    <p class="leader-card__office">{{ leader.office }}</p>
-                                {% endif %}
-                            </div>
-                        </div>
+        <div class="carousel" data-carousel aria-roledescription="carousel">
+            <div class="carousel__viewport" data-carousel-viewport>
+                <ul class="carousel__track" data-carousel-track>
+                    {% for leader in leaders %}
+                        <li class="carousel__slide"
+                            data-carousel-slide
+                            role="group"
+                            aria-roledescription="slide"
+                            aria-label="{{ forloop.counter }} of {{ leaders|length }}">
+                            <article class="card leader-card">
+                                <div class="leader-card__head">
+                                    <img class="leader-card__portrait"
+                                         src="{% static leader.portrait %}"
+                                         alt="{{ leader.alt }}"
+                                         width="132"
+                                         height="132"
+                                         loading="lazy"
+                                         decoding="async">
+                                    <div class="leader-card__id">
+                                        <p class="leader-card__name">{{ leader.name }}</p>
+                                        <p class="meta">
+                                            <span class="tag">{{ leader.role }}</span>
+                                        </p>
+                                        {% if leader.office %}
+                                            <p class="leader-card__office">{{ leader.office }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
 
-                        <div class="card__body">
-                            <p class="leader-card__message">{{ leader.message }}</p>
+                                <div class="card__body">
+                                    <p class="leader-card__message">{{ leader.message }}</p>
 
-                            <p class="leader-card__sign">
-                                <span class="leader-card__sign-name">{{ leader.name }}</span>
-                                <span class="leader-card__sign-role">{{ leader.role }}, {{ SITE_SHORT_NAME }}</span>
-                            </p>
-                        </div>
-                    </article>
-                </li>
-            {% endfor %}
-        </ul>
+                                    <p class="leader-card__sign">
+                                        <span class="leader-card__sign-name">{{ leader.name }}</span>
+                                        <span class="leader-card__sign-role">{{ leader.role }}, {{ SITE_SHORT_NAME }}</span>
+                                    </p>
+                                </div>
+                            </article>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="carousel__controls">
+                <button class="carousel__arrow" type="button" data-carousel-prev aria-label="Previous message">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <path d="m15 18-6-6 6-6" />
+                    </svg>
+                </button>
+
+                <div class="carousel__dots" data-carousel-dots>
+                    {% for leader in leaders %}
+                        <button class="carousel__dot"
+                                type="button"
+                                data-carousel-dot="{{ forloop.counter0 }}"
+                                aria-label="Show message {{ forloop.counter }} of {{ leaders|length }}: {{ leader.role }}"></button>
+                    {% endfor %}
+                </div>
+
+                <button class="carousel__arrow" type="button" data-carousel-next aria-label="Next message">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>
+                </button>
+            </div>
+
+            <p class="carousel__status visually-hidden" role="status" aria-live="polite" data-carousel-status></p>
+        </div>
     </div>
 </section>
 
-{# ------------------------------------------------------- 3. Quick access #}
-<section class="section section--tight">
+{# ---------------------------------------------- 3. Special announcement #}
+<section class="section section--alt announcement-section">
     <div class="container">
-        <h2 class="visually-hidden">Quick access</h2>
+        <div class="section__head">
+            <span class="eyebrow">Announcement</span>
+            <h2 class="section__title">Special Announcement</h2>
+        </div>
 
-        <ul class="quicklinks">
-            {% for item in quick_links %}
-                <li>
-                    <a class="quicklink" href="{% url item.url_name %}">
-                        <span class="quicklink__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="{{ item.icon }}" />
-                            </svg>
-                        </span>
-                        <span class="quicklink__text">
-                            <span class="quicklink__label">{{ item.label }}</span>
-                            <span class="quicklink__sub">{{ item.text }}</span>
-                        </span>
-                        <span class="quicklink__arrow" aria-hidden="true">&rsaquo;</span>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+        <div class="announcement-video-wrap">
+            <video class="announcement-video"
+                   controls
+                   playsinline
+                   preload="metadata"
+                   poster="{% static 'img/hero.png' %}"
+                   width="1280"
+                   height="720">
+                <source src="{% static 'videos/special-announcement.mp4' %}" type="video/mp4">
+                Your browser does not support HTML video.
+            </video>
+        </div>
     </div>
 </section>
 
@@ -115,7 +184,7 @@ then the three content feeds, then numbers, then a final push.
 <section class="section">
     <div class="container split">
         <div class="split__body">
-            <span class="eyebrow">About the university</span>
+            <span class="eyebrow">About the Lakshmipur Science and Technology</span>
             <h2 class="section__title">Built for teaching first</h2>
 
             <p>
@@ -149,7 +218,7 @@ then the three content feeds, then numbers, then a final push.
                   loads, which keeps the page from shifting.
                 {% endcomment %}
                 <img class="campus-card__art"
-                     src="{% static 'img/campus.jpg' %}"
+                     src="{% static 'img/hero.png' %}"
                      alt="A historic red brick university building framed by mature trees and walking paths"
                      width="1000"
                      height="750"
@@ -178,31 +247,36 @@ then the three content feeds, then numbers, then a final push.
 {% endcomment %}
 <section class="section section--tight mission-vision">
     <div class="container">
-        <h2 class="visually-hidden">Our mission and vision</h2>
+        <header class="mission-vision__head">
+            <span class="eyebrow">Purpose &amp; direction</span>
+            <h2 class="section__title">Our Mission &amp; Vision</h2>
+            <p class="section__lead">
+                The commitments that guide our teaching, research and service to the community.
+            </p>
+        </header>
 
-        <ul class="grid grid--2">
+        <ul class="grid grid--2 mission-vision__grid">
             {% for item in mission_vision %}
                 <li>
-                    <article class="card">
-                        <div class="card__body">
-                            <p class="mission-vision__label">
-                                <span class="quicklink__icon" aria-hidden="true">
+                    <article class="mission-vision__card{% if forloop.first %} mission-vision__card--mission{% else %} mission-vision__card--vision{% endif %}">
+                        <div class="mission-vision__card-head">
+                            <span class="mission-vision__icon" aria-hidden="true">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="{{ item.icon }}" />
                                     </svg>
-                                </span>
-                                <span class="tag">{{ item.label }}</span>
-                            </p>
-
-                            <h3 class="card__title">{{ item.title }}</h3>
-                            <p class="card__text">{{ item.text }}</p>
-
-                            <ul class="ticks">
-                                {% for point in item.points %}
-                                    <li>{{ point }}</li>
-                                {% endfor %}
-                            </ul>
+                            </span>
+                            <p class="mission-vision__label">{{ item.label }}</p>
+                            <span class="mission-vision__index" aria-hidden="true">0{{ forloop.counter }}</span>
                         </div>
+
+                        <h3 class="mission-vision__title">{{ item.title }}</h3>
+                        <p class="mission-vision__text">{{ item.text }}</p>
+
+                        <ul class="ticks mission-vision__points">
+                            {% for point in item.points %}
+                                <li>{{ point }}</li>
+                            {% endfor %}
+                        </ul>
                     </article>
                 </li>
             {% endfor %}
@@ -229,6 +303,17 @@ then the three content feeds, then numbers, then a final push.
             {% for program in programs %}
                 <li>
                     <article class="card program-card">
+                        {% comment %}
+                          The photograph shows the work the degree leads into,
+                          so the six cards read apart at a glance. The empty
+                          div behind it stays as a colour placeholder.
+                        {% endcomment %}
+                        <div class="card__media">
+                            <img src="{% static program.image %}"
+                                 alt="{{ program.alt }}"
+                                 width="960" height="640"
+                                 loading="lazy" decoding="async">
+                        </div>
                         <div class="card__body">
                             <span class="program-card__code">{{ program.code }}</span>
                             <h3 class="card__title">{{ program.title }}</h3>

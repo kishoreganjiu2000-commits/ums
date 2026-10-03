@@ -52,6 +52,10 @@ QUICK_LINKS = [
 ]
 
 # --- Section 4: academic programs ------------------------------------------
+# Each programme carries a photograph of the work it actually leads into, so
+# the reader can tell the six degrees apart at a glance instead of reading six
+# near-identical text cards. Images live in static/img/ and are credited in
+# static/img/ATTRIBUTIONS.md - all CC0.
 PROGRAMS = [
     {
         'code': 'BSc CSE',
@@ -59,6 +63,8 @@ PROGRAMS = [
         'faculty': 'Engineering & Technology',
         'duration': '4 years',
         'text': 'Algorithms, systems, machine learning and full-stack practice.',
+        'image': 'img/program-cse.jpg',
+        'alt': 'Lines of source code open on a laptop screen during a programming class',
     },
     {
         'code': 'BBA',
@@ -66,6 +72,8 @@ PROGRAMS = [
         'faculty': 'Business & Economics',
         'duration': '4 years',
         'text': 'Accounting, finance, marketing and organisational behaviour.',
+        'image': 'img/program-business.jpg',
+        'alt': 'Business students in discussion around a table during a management seminar',
     },
     {
         'code': 'LLB',
@@ -73,6 +81,8 @@ PROGRAMS = [
         'faculty': 'Law & Governance',
         'duration': '4 years',
         'text': 'Constitutional, commercial and international law with moot court work.',
+        'image': 'img/program-law.jpg',
+        'alt': 'Bound legal volumes stacked on a shelf in a law library',
     },
     {
         'code': 'MBBS',
@@ -80,6 +90,8 @@ PROGRAMS = [
         'faculty': 'Health Sciences',
         'duration': '6 years',
         'text': 'Clinical training from the third year at partner teaching hospitals.',
+        'image': 'img/program-medicine.jpg',
+        'alt': 'A doctor in a white coat examining a patient during clinical training',
     },
     {
         'code': 'MSc DS',
@@ -87,6 +99,8 @@ PROGRAMS = [
         'faculty': 'Science & Technology',
         'duration': '2 years',
         'text': 'Statistics, machine learning and large-scale data engineering.',
+        'image': 'img/program-data-science.jpg',
+        'alt': 'Statistical charts and plots laid out for a data analysis exercise',
     },
     {
         'code': 'MA Eco',
@@ -94,6 +108,8 @@ PROGRAMS = [
         'faculty': 'Business & Economics',
         'duration': '2 years',
         'text': 'Microeconomics, econometrics and development policy analysis.',
+        'image': 'img/program-economics.jpg',
+        'alt': 'A market data screen tracking prices and economic indicators',
     },
 ]
 
@@ -218,8 +234,11 @@ EVENTS = [
 # fictional and must not be read as the words of any real person or office.
 # The Chancellor is shown as the President of Bangladesh holding the
 # cancellership, which is the constitutional pattern for public universities in
-# the country; the officeholder is deliberately left unnamed. The portraits are
-# generic stock photography - see static/img/ATTRIBUTIONS.md.
+# the country; the officeholder is deliberately left unnamed. The Education
+# Minister sits second, between the Chancellor and the Vice-Chancellor - the
+# order the homepage carousel walks through. Portraits live in static/img/ -
+# chancellor.jpg and edu_mis.jpeg are official photographs, vice-chancellor.jpg
+# is placeholder artwork pending a real one.
 LEADERS = [
     {
         'name': 'His Excellency the President',
@@ -238,6 +257,28 @@ LEADERS = [
             'something to those who later employ its holder. That conviction has '
             'not changed as we have grown, and it will not change in the decades '
             'ahead.'
+        ),
+    },
+    {
+        'name': 'Dr. A. N. M. Ehsanul Haque Milan',
+        'role': 'Education Minister',
+        'office': (
+            'Ministry of Education, Government of the People\'s Republic of '
+            'Bangladesh'
+        ),
+        'portrait': 'img/edu_mis.jpeg',
+        'alt': 'Portrait of the Education Minister of Bangladesh',
+        'message': (
+            'Education is not a sector to be administered but a commitment to be '
+            'kept, and the task of this Ministry is to see that commitment reach '
+            'the classroom in the form of teachers, laboratories and textbooks. '
+            'Universities carry a particular share of that duty, because they are '
+            'where a discipline is built and therefore where the country\'s '
+            'capacity in science, health and technology is either secured or '
+            'allowed to slip. A university is finally judged by ordinary '
+            'measures - classrooms filled, degrees examined honestly, research '
+            'that leaves the campus - and those are the measures Jholo University '
+            'ought to be asked about, by students and by the country alike.'
         ),
     },
     {
@@ -264,31 +305,32 @@ LEADERS = [
 MISSION_VISION = [
     {
         'label': 'Our Mission',
-        'title': 'Teach honestly, research usefully',
+        'title': 'Education with meaningful impact',
         'icon': 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2z',
         'text': (
-            'To teach honestly and research usefully, so that a graduate of this '
-            'university is trusted to do real work in the field they trained in.'
+            'To provide rigorous, accessible education and applied research that '
+            'equip graduates to solve real-world challenges and serve their '
+            'communities with integrity.'
         ),
         'points': [
-            'Small lecture groups, taught by staff who hold terminal degrees',
-            'Every programme carries a substantial project or clinical component',
-            'Research directed at questions the region actually has open',
+            'Small classes led by faculty with advanced academic qualifications',
+            'Substantial project, field or clinical work in every programme',
+            'Research focused on priorities across the region',
         ],
     },
     {
         'label': 'Our Vision',
-        'title': 'Judgement as well as degrees',
+        'title': 'A trusted leader in science and technology',
         'icon': 'M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
         'text': (
-            'A university the region looks to for judgement as much as for '
-            'diplomas &mdash; known for teaching that holds up outside the '
-            'classroom, and for graduates who keep learning after they leave.'
+            'To be recognized across the region for academic excellence, useful '
+            'research and graduates prepared to keep learning and contribute '
+            'throughout their careers.'
         ),
         'points': [
-            'Programmes reviewed externally every five years against current practice',
-            'Library, career services and counselling open to every student',
-            'A graduate network that reaches far beyond the region',
+            'Programmes reviewed externally against current practice',
+            'Library, career services and counselling available to every student',
+            'A graduate network with reach beyond the region',
         ],
     },
 ]
