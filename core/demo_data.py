@@ -305,7 +305,7 @@ EVENTS = [
 # Fictional, like the rest of this file. The portrait is placeholder artwork
 # pending a real photograph.
 VICE_CHANCELLOR = {
-    'name': 'Hanif Murad',
+    'name': 'Pr. Dr. Hanif Murad',
     'role': 'Vice-Chancellor',
     'office': None,
     'portrait': 'img/vice-chancellor.jpg',

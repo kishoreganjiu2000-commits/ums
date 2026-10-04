@@ -1834,8 +1834,8 @@ a.notice-nav__item:hover {
 .brand__mark {
     display: grid;
     place-items: center;
-    height: 150px;
-    min-width: 150px;
+    height: 120px;
+    min-width: 120px;
     padding: 0;
     flex-shrink: 0;
     overflow: hidden;
@@ -1845,8 +1845,8 @@ a.notice-nav__item:hover {
 
 .brand__mark img {
     display: block;
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     object-fit: contain;
 }
 
@@ -2639,6 +2639,11 @@ a.notice-nav__item:hover {
         min-width: 44px;
         padding: 3px;
         font-size: var(--fs-sm);
+    }
+
+    .brand__mark img {
+        width: 44px;
+        height: 44px;
     }
 
     .header__inner {
