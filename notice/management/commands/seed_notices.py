@@ -20,9 +20,10 @@ from notice.models import Notice, NoticeCategory
 CATEGORIES = [
     ('Examination', 1),
     ('Admission', 2),
-    ('Research', 3),
-    ('Campus', 4),
-    ('General', 5),
+    ('Career', 3),
+    ('Research', 4),
+    ('Campus', 5),
+    ('General', 6),
 ]
 
 NOTICES = [
@@ -61,6 +62,24 @@ NOTICES = [
             'days.\n\n'
             'Merit scholarships are awarded on a rolling basis and are not reserved '
             'until the admission list is formally published.'
+        ),
+    },
+    {
+        'title': 'Career Fair 2026: Employer Registration and Hall Allocation',
+        'category': 'Career',
+        'reference_code': 'JU/CAR/2026/011',
+        'published_date': datetime.date(2026, 9, 12),
+        'has_pdf': True,
+        'description': (
+            'The annual Career Fair will be held on 8 November 2026 in the '
+            'Exhibition Grounds. Employers are invited to register for a table '
+            'and a hall slot by 20 October 2026.\n\n'
+            'Registration is free. Stall dimensions are 3m x 3m and power supply '
+            'is provided on request. Employers requiring interview rooms should '
+            'state this at registration so a room can be allocated.\n\n'
+            'Final-year students and recent graduates may attend without '
+            'registration. A printed CV is not compulsory, but candidates are '
+            'advised to bring enough copies of their academic transcripts.'
         ),
     },
     {
@@ -113,6 +132,26 @@ NOTICES = [
         ),
     },
     {
+        'title': 'Faculty Recruitment: Assistant Professor in Computer Science',
+        'category': 'Career',
+        'reference_code': 'JU/CAR/2026/008',
+        'published_date': datetime.date(2026, 8, 25),
+        'has_pdf': True,
+        'description': (
+            'Applications are invited for four posts of Assistant Professor in '
+            'Computer Science and Engineering, two of which are reserved for '
+            'candidates from underrepresented districts.\n\n'
+            'Candidates must hold a master degree in a relevant discipline and '
+            'will be required to teach undergraduate programming and systems '
+            'courses. Shortlisting is by academic record and published work; a '
+            'short teaching demonstration may be scheduled.\n\n'
+            'Applications close on 31 October 2026 and must be submitted through '
+            'the Registrar\'s office with the completed form, a two-page '
+            'statement of teaching philosophy, and copies of transcripts and '
+            'publications.'
+        ),
+    },
+    {
         'title': 'Revised Library Opening Hours During Examination Period',
         'category': 'General',
         'reference_code': 'JU/GEN/2026/028',
@@ -159,6 +198,24 @@ NOTICES = [
         ),
     },
     {
+        'title': 'Career Services: Monthly Job Clinic and CV Review Appointments',
+        'category': 'Career',
+        'reference_code': 'JU/CAR/2026/004',
+        'published_date': datetime.date(2026, 8, 2),
+        'has_pdf': False,
+        'description': (
+            'The Career Services Office will hold a job clinic on the first '
+            'Wednesday of every month at 11:00 AM in the Student Services '
+            'Building.\n\n'
+            'The clinic covers CV and cover letter review, interview practice '
+            'and an introduction to the vacancy postings on the notice board. '
+            'Individual fifteen-minute appointments are available at a first '
+            'come, first served basis.\n\n'
+            'Students who have completed at least one semester are eligible. No '
+            'prior registration is required, but a printed CV is helpful.'
+        ),
+    },
+    {
         'title': 'Make-Up Examination for August 2026 Sitting',
         'category': 'Examination',
         'reference_code': 'JU/REG/2026/036',
@@ -172,6 +229,24 @@ NOTICES = [
             'Applications received after this period will not be accepted.\n\n'
             'The make-up will run in the week of 5 October 2026 alongside the regular '
             'mid-term schedule.'
+        ),
+    },
+    {
+        'title': 'Administrative Staff Recruitment: Registrar and Finance Offices',
+        'category': 'Career',
+        'reference_code': 'JU/CAR/2026/001',
+        'published_date': datetime.date(2026, 7, 14),
+        'has_pdf': True,
+        'description': (
+            'Applications are invited for permanent administrative posts in the '
+            'Registrar\'s Office and in Finance and Accounts, including several '
+            'reserved for candidates with disabilities.\n\n'
+            'Posts are on a national scale. Candidates must have completed '
+            'graduation from a recognised university and should be proficient '
+            'in office software; typing speed may be tested for records posts.\n\n'
+            'Applications close on 30 September 2026. Apply through the Registrar '
+            'and attach the national identity document, educational certificates '
+            'and one recent passport photograph.'
         ),
     },
     {

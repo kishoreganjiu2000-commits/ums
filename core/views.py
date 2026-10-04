@@ -74,6 +74,7 @@ class HomeView(TemplateView):
             'news': demo_data.NEWS[:3],
             'events': demo_data.EVENTS[:3],
             'leaders': demo_data.LEADERS,
+            'places': demo_data.PLACES,
             'mission_vision': demo_data.MISSION_VISION,
             'stats': demo_data.STATS,
         })
@@ -103,5 +104,24 @@ class ComingSoonView(TemplateView):
 
         context['page_title'] = title
         context['page_summary'] = summary
+
+        return context
+
+
+class ViceChancellorView(TemplateView):
+    """
+    The Vice-Chancellor's own page, linked from Administration in the header.
+
+    Reads the same VICE_CHANCELLOR dict the homepage carousel does, so the short
+    quote there and the full speech here are one text rather than two.
+    """
+
+    template_name = 'core/vice_chancellor.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['vc'] = demo_data.VICE_CHANCELLOR
+        context['vc_recent_notices'] = Notice.objects.published().board_order()[:3]
 
         return context

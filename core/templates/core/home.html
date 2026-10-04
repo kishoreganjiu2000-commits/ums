@@ -46,7 +46,7 @@ then the three content feeds, then numbers, then a final push.
 
     <div class="container hero__inner">
         <div class="hero__content">
-            <p class="eyebrow">Admissions open for Spring 2027</p>
+           
 
             <h1 class="hero__title">Where curiosity becomes capability</h1>
 
@@ -56,14 +56,14 @@ then the three content feeds, then numbers, then a final push.
             </p>
 
             <div class="hero__actions">
-                <a class="btn btn--accent" href="{% url 'core:admission' %}">Apply Now</a>
+                
                 <a class="btn btn--ghost-light" href="{% url 'core:academics' %}">Explore Programs</a>
             </div>
 
             <ul class="hero__facts">
-                <li><strong>38</strong> degree programmes</li>
-                <li><strong>6</strong> faculties</li>
-                <li><strong>12</strong> research centres</li>
+                <li><strong>0</strong> degree programmes</li>
+                <li><strong>5</strong> faculties</li>
+                <li><strong>0</strong> research centres</li>
             </div>
         </div>
     </div>
@@ -257,7 +257,7 @@ then the three content feeds, then numbers, then a final push.
 
         <ul class="grid grid--2 mission-vision__grid">
             {% for item in mission_vision %}
-                <li>
+                <li style="--grid-index: {{ forloop.counter0 }};">
                     <article class="mission-vision__card{% if forloop.first %} mission-vision__card--mission{% else %} mission-vision__card--vision{% endif %}">
                         <div class="mission-vision__card-head">
                             <span class="mission-vision__icon" aria-hidden="true">
@@ -284,6 +284,100 @@ then the three content feeds, then numbers, then a final push.
     </div>
 </section>
 
+{# ------------------------------------------------- 3c. Place gallery #}
+{% comment %}
+  Reuses the data-carousel markup the leadership messages above already use, so
+  the arrows, dots, keyboard handling, swipe and autoplay all come from main.js
+  unchanged. Two differences from that block:
+
+    - data-carousel-label tells the live region to say "Place" instead of
+      "Message", and the .tag inside each slide is the area name, so the
+      announcement becomes "Place 3 of 5: Dalal Bazar".
+    - Each slide is one tall photograph with the caption laid over it, rather
+      than a text card, so the track is not a row of equal-height cards.
+
+  Without JavaScript the slides simply stack, which leaves five ordinary
+  figure cards - the photographs stay readable either way.
+{% endcomment %}
+<section class="section section--tight gallery-section">
+    <div class="container">
+        <div class="section__head section__head--row">
+            <div>
+                <span class="eyebrow">Around the district</span>
+                <h2 class="section__title">Interesting Places of Lakshmipur</h2>
+                <p class="section__lead">
+                    Five places worth the journey &mdash; a village of canals,
+                    the Meghna at two of its ghats, a sandbar beach and a
+                    nineteenth-century courtyard house.
+                </p>
+            </div>
+        </div>
+
+        <div class="carousel gallery" data-carousel data-carousel-label="Place" aria-roledescription="carousel">
+            <div class="carousel__viewport" data-carousel-viewport>
+                <ul class="carousel__track" data-carousel-track>
+                    {% for place in places %}
+                        <li class="carousel__slide"
+                            data-carousel-slide
+                            role="group"
+                            aria-roledescription="slide"
+                            aria-label="{{ forloop.counter }} of {{ places|length }}">
+                            {% comment %}
+                              width/height come from the data so the browser
+                              reserves the box before the file arrives and the
+                              caption does not jump.
+                            {% endcomment %}
+                            <figure class="gallery__frame">
+                                <img class="gallery__image"
+                                     src="{% static place.image %}"
+                                     alt="{{ place.alt }}"
+                                     width="{{ place.width }}"
+                                     height="{{ place.height }}"
+                                     loading="lazy"
+                                     decoding="async">
+
+                                <figcaption class="gallery__caption">
+                                    <p class="gallery__head">
+                                        <span class="gallery__index" aria-hidden="true">0{{ forloop.counter }}</span>
+                                        <span class="tag tag--accent">{{ place.area }}</span>
+                                    </p>
+                                    <p class="gallery__name">{{ place.name }}</p>
+                                    <p class="gallery__text">{{ place.text }}</p>
+                                </figcaption>
+                            </figure>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="carousel__controls">
+                <button class="carousel__arrow" type="button" data-carousel-prev aria-label="Previous place">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <path d="m15 18-6-6 6-6" />
+                    </svg>
+                </button>
+
+                <div class="carousel__dots" data-carousel-dots>
+                    {% for place in places %}
+                        <button class="carousel__dot"
+                                type="button"
+                                data-carousel-dot="{{ forloop.counter0 }}"
+                                aria-label="Show place {{ forloop.counter }} of {{ places|length }}: {{ place.name }}"></button>
+                    {% endfor %}
+                </div>
+
+                <button class="carousel__arrow" type="button" data-carousel-next aria-label="Next place">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>
+                </button>
+            </div>
+
+            <p class="carousel__status visually-hidden" role="status" aria-live="polite" data-carousel-status></p>
+        </div>
+    </div>
+</section>
+
 {# --------------------------------------------------- 4. Academic programs #}
 <section class="section section--alt">
     <div class="container">
@@ -301,7 +395,7 @@ then the three content feeds, then numbers, then a final push.
 
         <ul class="grid grid--3 program-grid">
             {% for program in programs %}
-                <li>
+                <li style="--grid-index: {{ forloop.counter0 }};">
                     <article class="card program-card">
                         {% comment %}
                           The photograph shows the work the degree leads into,
@@ -402,7 +496,7 @@ then the three content feeds, then numbers, then a final push.
 
         <ul class="grid grid--3">
             {% for item in news %}
-                <li>
+                <li style="--grid-index: {{ forloop.counter0 }};">
                     <article class="card news-card">
                         {% comment %}
                           Each card leads with a real photograph. The empty
@@ -479,13 +573,12 @@ then the three content feeds, then numbers, then a final push.
 {# ----------------------------------------------------------------- 10. CTA #}
 <section class="cta-band">
     <div class="container">
-        <h2 class="cta-band__title">Applications for Spring 2027 are open</h2>
+        <h2 class="cta-band__title">Applications for next session</h2>
         <p class="cta-band__text">
             Merit scholarships cover up to full tuition. Early applications are
             reviewed from August and offers are issued on a rolling basis.
         </p>
         <div class="cta-band__actions">
-            <a class="btn btn--accent" href="{% url 'core:admission' %}">Apply Now</a>
             <a class="btn btn--ghost-light" href="{% url 'core:contact' %}">Talk to Admissions</a>
         </div>
     </div>

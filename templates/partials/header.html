@@ -15,7 +15,7 @@ when the site grows a new page.
                   eagerly. alt is empty because the wrapper is aria-hidden and
                   the visible brand__name already carries the name.
                 {% endcomment %}
-                <img src="{% static 'img/logo.jpeg' %}" alt="" width="52" height="48" decoding="async" fetchpriority="high">
+                <img src="{% static 'img/logo.jpeg' %}" alt="" width="88" height="88" decoding="async" fetchpriority="high">
             </span>
             <span class="brand__text">
                 <span class="brand__name">{{ SITE_SHORT_NAME }}</span>
@@ -34,8 +34,14 @@ when the site grows a new page.
         {% comment %}
           The one call to action. The word "Now" is dropped below 560px to keep
           the row on one line, rather than adding a second button for mobile.
+
+          Careers are published as notices rather than on a page of their own,
+          so this lands on the notice board with the Career filter already
+          applied - the visitor sees the actual vacancies and can widen the
+          search with the category and year controls.
         {% endcomment %}
-        <a class="btn btn--accent header__cta" href="{% url 'core:admission' %}">Apply<span class="header__cta-long">&nbsp;Now</span></a>
+        <a class="btn btn--accent header__cta"
+           href="{% url 'notice:notice_list' %}?category=career">Career</a>
 
         <button type="button"
                 class="nav-toggle"

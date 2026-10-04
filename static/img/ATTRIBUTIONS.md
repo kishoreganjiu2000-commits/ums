@@ -40,6 +40,24 @@ domain, no attribution required. Each was cropped to 960x640.
 These are generic stock photographs of the kind of work each degree leads into.
 They are not pictures of teaching, staff or students at this institution.
 
+## Gallery photographs
+
+The five files behind the "Interesting Places of Lakshmipur" carousel were
+supplied with the project rather than sourced by it. **Their licence and origin
+have not been recorded** — fill this in before the site goes public, and treat
+the table below as a placeholder rather than a credit.
+
+| Local file | Subject | Source page |
+| --- | --- | --- |
+| `lokkhipur1.jpg` | Water channel at Lokkhipur village | unknown |
+| `lokkhipur2.jpg` | Canal road near Lokkhipur | unknown |
+| `alexander_meghna_beach_.jpg` | Meghna river beach near Alexander Ghat | unknown |
+| `altaf_master_ghat.jpg` | Altaf Master Ghat landing stage | unknown |
+| `dalal_bazar_zamindar_bari.jpg` | Carved facade, Dalal Bazar zamindar bari | unknown |
+
+They are used at 21:10 (`4:3` under 768px) with `object-fit: cover`, so the
+displayed crop differs from the original file in every case.
+
 ## Not photographs
 
 - `hero-pattern.svg` — original vector pattern, project-owned.

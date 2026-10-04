@@ -12,13 +12,14 @@ named route in another app.
 
 from django.urls import path
 
-from .views import ComingSoonView, HomeView
+from .views import ComingSoonView, HomeView, ViceChancellorView
 
 app_name = 'core'
 
 # (url, route name, key in core.views.PENDING_SECTIONS)
 STATIC_SECTIONS = [
     ('about/', 'about', 'about'),
+    ('administration/', 'administration', 'administration'),
     ('academics/', 'academics', 'academics'),
     ('admission/', 'admission', 'admission'),
     ('research/', 'research', 'research'),
@@ -30,6 +31,10 @@ STATIC_SECTIONS = [
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
+
+    # A real page, so it is declared here rather than in STATIC_SECTIONS. The
+    # Administration dropdown points at this instead of at the about page.
+    path('vice-chancellor/', ViceChancellorView.as_view(), name='vice_chancellor'),
 ]
 
 urlpatterns += [

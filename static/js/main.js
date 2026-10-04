@@ -469,6 +469,10 @@
        Non-current slides get aria-hidden and, where the browser supports it,
        inert - otherwise a keyboard user would tab into a message they cannot
        see.
+
+       data-carousel-label on the carousel sets the noun used in the live
+       region, so a carousel of photographs announces "Place 2 of 5" rather
+       than "Message 2 of 5". It defaults to "Message".
        ---------------------------------------------------------------------- */
     var CAROUSEL_INTERVAL = 7000;
     var SWIPE_THRESHOLD = 45;
@@ -491,6 +495,7 @@
 
             var supportsInert = 'inert' in HTMLElement.prototype;
             var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            var noun = carousel.getAttribute('data-carousel-label') || 'Message';
             var total = slides.length;
             var index = 0;
             var timer = null;
@@ -517,7 +522,7 @@
                     var label = slides[index].getAttribute('aria-label') || '';
                     var role = slides[index].querySelector('.tag');
                     status.textContent =
-                        'Message ' + label + (role ? ': ' + role.textContent.trim() : '');
+                        noun + ' ' + label + (role ? ': ' + role.textContent.trim() : '');
                 }
             }
 

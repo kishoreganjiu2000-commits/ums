@@ -23,13 +23,19 @@ from django.urls import reverse
 # other item is a single page, so a submenu would only repeat its own link.
 # ---------------------------------------------------------------------------
 NAV_ITEMS = [
-    {'label': 'Home', 'url_name': 'core:home'},
     {'label': 'About', 'url_name': 'core:about'},
+    {'label': 'Administration', 'url_name': 'core:administration', 'children': [
+        {'label': 'Vice-Chancellor', 'url_name': 'core:vice_chancellor'},
+        {'label': 'Pro Vice-Chancellor', 'url_name': 'core:about'},
+        {'label': 'Registrar', 'url_name': 'core:about'},
+        {'label': 'Director (Finance and Accounts)', 'url_name': 'core:about'},
+        {'label': 'Director (Planning and Development)', 'url_name': 'core:research'},
+        {'label': 'Other Offices', 'url_name': 'core:contact'},
+    ]},
     {'label': 'Academics', 'url_name': 'core:academics'},
     {'label': 'Admission', 'url_name': 'core:admission'},
     {'label': 'Research', 'url_name': 'core:research'},
     {'label': 'Students', 'url_name': 'core:students'},
-    {'label': 'News & Events', 'url_name': 'core:news_events'},
     {'label': 'Notice', 'url_name': 'notice:notice_list'},
     {'label': 'Contact', 'url_name': 'core:contact'},
 ]
@@ -54,14 +60,16 @@ def _build_nav():
 
         if 'children' in entry:
             item['id'] = 'subnav-{}'.format(entry['label'].lower().replace(' ', '-').replace('&', 'and'))
-            item['children'] = [
-                {
-                    'label': child['label'],
-                    'url': reverse(child['url_name']),
-                    'name': child['url_name'].split(':')[-1],
-                }
-                for child in entry['children']
-            ]
+            item['children'] = []
+            for child in entry['children']:
+                child_item = {'label': child['label']}
+                if 'url_name' in child:
+                    child_item['url'] = reverse(child['url_name'])
+                    child_item['name'] = child['url_name'].split(':')[-1]
+                elif 'url' in child:
+                    child_item['url'] = child['url']
+                    child_item['name'] = child['label'].lower().replace(' ', '-')
+                item['children'].append(child_item)
 
         items.append(item)
 
@@ -75,8 +83,8 @@ def site_info(request):
     """University name, tagline, contact details and the navigation tree."""
     return {
         'SITE_NAME': 'Lakshmipur Science and Technology',
-        'SITE_SHORT_NAME': 'LSTU',
-        'SITE_TAGLINE': 'Knowledge in Motion',
+        'SITE_SHORT_NAME': 'Lakshmipur Science and Technology',
+        'SITE_TAGLINE': '',
         'SITE_PHONE': '+880 1700 000000',
         'SITE_EMAIL': 'info@jholouniversity.edu',
         'SITE_ADDRESS': 'Lakshmipur Science and Technology, University Road, Lakshmipur',

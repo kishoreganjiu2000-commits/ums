@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Vice-Chancellor — {{ SITE_NAME }}{% endblock %}
+
+{% block meta_description %}Message from {{ vc.name }}, Vice-Chancellor of {{ SITE_NAME }}, and the commitments the office is held to.{% endblock %}
+
+{% comment %}
+The Administration dropdown child "Vice-Chancellor" lands here.
+
+Layout is a two-column grid: a large portrait on the left, the message on the
+right. The portrait is deliberately much bigger than the circular crop the
+homepage carousel uses - this is the page the dropdown promises, so the picture
+is the point rather than an identifier.
+
+The name, portrait and short quote come from core/demo_data.py's
+VICE_CHANCELLOR, the same dict that fills the carousel slide, so the two cannot
+disagree. Only the full speech is specific to this page.
+{% endcomment %}
+
+{% block content %}
+
+{# ----------------------------------------------------- Portrait + message #}
+<section class="section">
+    <div class="container">
+        <div class="vc">
+
+            {% comment %}
+              object-position is biased upward in CSS because the source file is
+              landscape - centring it would crop to the chest.
+            {% endcomment %}
+            <div class="vc__media">
+                <img class="vc__portrait"
+                     src="{% static vc.portrait %}"
+                     alt="{{ vc.alt }}"
+                     width="715"
+                     height="429"
+                     fetchpriority="high"
+                     decoding="async">
+
+                <p class="vc__caption">
+                    <span class="vc__caption-name">{{ vc.name }}</span>
+                    <span class="vc__caption-role">{{ vc.role }}, {{ SITE_SHORT_NAME }}</span>
+                </p>
+            </div>
+
+            <div class="vc__body">
+                <h2 class="vc__name">{{ vc.name }}</h2>
+
+                <p class="meta">
+                    <span class="tag">{{ vc.role }}</span>
+                    {% if vc.office %}
+                        <span class="meta__dot">{{ vc.office }}</span>
+                    {% endif %}
+                </p>
+
+                <h3 class="vc__heading">Message from the Vice-Chancellor</h3>
+
+                <div class="prose vc__speech">
+                    {% for paragraph in vc.speech %}
+                        <p>{{ paragraph }}</p>
+                    {% endfor %}
+                </div>
+
+                {% comment %}
+                  Signed the way a printed message would be. The name is
+                  repeated here deliberately: it is the line a reader looks for
+                  at the end of a speech.
+                {% endcomment %}
+                <p class="vc__sign">
+                    <span class="vc__sign-name">{{ vc.name }}</span>
+                    <span class="vc__sign-role">{{ vc.role }}, {{ SITE_SHORT_NAME }}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# --------------------------------------------------------- Commitments #}
+<section class="section section--alt">
+    <div class="container">
+        <div class="vc-commitments">
+            <div class="vc-commitments__intro">
+                <span class="eyebrow">Held to</span>
+                <h2 class="section__title">What the office is held to</h2>
+                <p class="section__lead">
+                    The measures the Vice-Chancellor asks to be judged by. Each
+                    is reported on through the notice board and the annual
+                    review.
+                </p>
+            </div>
+
+            <ul class="ticks vc-commitments__list">
+                {% for point in vc.commitments %}
+                    <li>{{ point }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
+
+{# -------------------------------------------------- Notices and contact #}
+<section class="section">
+    <div class="container">
+        <div class="section__head section__head--row">
+            <div>
+                <span class="eyebrow">From the office</span>
+                <h2 class="section__title">Recent notices</h2>
+                <p class="section__lead">
+                    Announcements from the Vice-Chancellor's office appear on
+                    the notice board alongside examination and admission notices.
+                </p>
+            </div>
+            <a class="btn btn--outline" href="{% url 'notice:notice_list' %}">All notices</a>
+        </div>
+
+        <ul class="notice-list">
+            {% for notice in vc_recent_notices %}
+                <li class="notice-row">
+                    <div class="notice-row__date">
+                        <span class="notice-row__day">{{ notice.published_date|date:"d" }}</span>
+                        <span class="notice-row__month">{{ notice.published_date|date:"M" }}</span>
+                    </div>
+
+                    <div class="notice-row__body">
+                        <p class="meta">
+                            <span class="tag">{{ notice.category.name }}</span>
+                            <span class="meta__dot">{{ notice.published_date|date:"j F Y" }}</span>
+                        </p>
+
+                        <h3 class="notice-row__title">
+                            <a href="{{ notice.get_absolute_url }}">{{ notice.title }}</a>
+                        </h3>
+
+                        <p class="notice-row__summary">
+                            {{ notice.description|truncatechars:120 }}
+                        </p>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="notice-row notice-row--empty">
+                    <p class="notice-row__summary">No notices have been published yet.</p>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="dev-actions">
+            <a class="btn btn--primary" href="{% url 'core:contact' %}">Contact the office</a>
+            <a class="btn btn--outline" href="{% url 'core:about' %}">About {{ SITE_SHORT_NAME }}</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

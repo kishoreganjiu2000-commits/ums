@@ -157,6 +157,74 @@ NOTICES = [
     },
 ]
 
+# --- Interesting places of Lakshmipur ---------------------------------------
+# Photographed places within the district, shown in the gallery carousel.
+# The homepage has nothing to say about these beyond the photograph and a line
+# of context, so they live here with the rest of the placeholder content rather
+# than in a model - there is no admin workflow for editing a photo caption yet.
+#
+# Images live in static/img/. Provenance for the five files is recorded in
+# static/img/ATTRIBUTIONS.md.
+PLACES = [
+    {
+        'name': 'Lokkhipur',
+        'area': 'Lokkhipur',
+        'text': 'The village that lent the district its name, kept quiet by '
+                'polders, canals and old fishing water - a couple of hours '
+                'from the campus without leaving the lowlands.',
+        'image': 'img/lokkhipur1.jpg',
+        'alt': 'Quiet water channel and greenery at Lokkhipur village in Lakshmipur district',
+        'width': 1761,
+        'height': 1242,
+    },
+    {
+        'name': 'Lokkhipur Canal',
+        'area': 'Lokkhipur',
+        'text': 'The canal road that runs past Lokkhipur, lined with palms '
+                'and crossed by wooden bridges - the view most visitors '
+                'photograph on the way in.',
+        'image': 'img/lokkhipur2.jpg',
+        'alt': 'A tree-lined canal beside a road near Lokkhipur in Lakshmipur district',
+        'width': 2048,
+        'height': 1258,
+    },
+    {
+        'name': 'Alexander Meghna Beach',
+        'area': 'Alexander Meghna Ghat',
+        'text': 'Where the Meghna opens out into the delta, wide enough that '
+                'the far bank is a line rather than a shore. Sandbars move '
+                'here every season, so the beach is a different place each '
+                'year it is visited.',
+        'image': 'img/alexander_meghna_beach_.jpg',
+        'alt': 'Wide sandy river beach at the mouth of the Meghna near Alexander Ghat in Lakshmipur',
+        'width': 4140,
+        'height': 3072,
+    },
+    {
+        'name': 'Altaf Master Ghat',
+        'area': 'Lakshmipur town',
+        'text': 'The busiest ghat in the district, and the place the town is '
+                'named beside. Steps down to the water at dawn and at dusk, '
+                'with ferries and cargo boats all day.',
+        'image': 'img/altaf_master_ghat.jpg',
+        'alt': 'Stone steps and crowded landing stage at Altaf Master Ghat on the Meghna in Lakshmipur',
+        'width': 2048,
+        'height': 1410,
+    },
+    {
+        'name': 'Dalal Bazar Zamindar Bari',
+        'area': 'Dalal Bazar',
+        'text': 'A zamindar bari - the courtyard house of a nineteenth-century '
+                'landholder - with carved wooden doors, a central court and '
+                'the kind of detailing that tells you what the family spent '
+                'the money on.',
+        'image': 'img/dalal_bazar_zamindar_bari.jpg',
+        'alt': 'Ornately carved wooden facade of the Dalal Bazar zamindar bari in Lakshmipur',
+        'width': 1286,
+        'height': 639,
+    },
+]
+
 # --- Section 6: news --------------------------------------------------------
 NEWS = [
     {
@@ -229,6 +297,88 @@ EVENTS = [
     },
 ]
 
+# --- Vice-Chancellor ----------------------------------------------------------
+# Single source of truth for the Vice-Chancellor. Both the homepage carousel
+# (via LEADERS below) and the dedicated page at /vice-chancellor/ read from
+# here, so the short quote and the full speech cannot drift apart.
+#
+# Fictional, like the rest of this file. The portrait is placeholder artwork
+# pending a real photograph.
+VICE_CHANCELLOR = {
+    'name': 'Hanif Murad',
+    'role': 'Vice-Chancellor',
+    'office': None,
+    'portrait': 'img/vice-chancellor.jpg',
+    'alt': 'Portrait of the Vice-Chancellor of Jholo University',
+
+    # Short form, for the carousel slide.
+    'message': (
+        'Our task each year is unglamorous and exacting: keep lecture groups '
+        'small, keep assessment honest, and keep every programme current with '
+        'the work our graduates will actually do. Our teaching staff hold '
+        'terminal degrees, our programmes carry real laboratory and field '
+        'work, and our twelve research centres stay close to regional '
+        'industry. Those are the commitments I would ask you to hold us to.'
+    ),
+
+    # Full form, for the page. Paragraphs, in order.
+    'speech': [
+        (
+            'A university is judged slowly and in public. What is visible from '
+            'the gate - the state of the buildings, the length of a queue at '
+            'the examination office - is the reputation of every teacher and '
+            'every student inside it. I do not begin a year by announcing '
+            'targets. I begin by reading the examination results of the year '
+            'before, the attrition figures, the placement record, and the '
+            'complaints that reached my office.'
+        ),
+        (
+            'Our first commitment is smallness where it matters. A lecture group '
+            'that stops at ninety students is not a lecture group; it is a hall '
+            'with attendance. Our teaching staff hold terminal degrees, and I '
+            'have resisted the temptation to grow enrolment by appointing '
+            'anyone who walked through the door. Numbers on a registration form '
+            'are easily bought and hard to defend. A student who is known by '
+            'the people who teach them is not.'
+        ),
+        (
+            'The second is that assessment must be worth doing. Marks have to '
+            'mean something when a student is admitted to postgraduate study or '
+            'appointed to a job, which means examinations have to be examined '
+            'themselves. Our external reviewers tell us which programmes are '
+            'carrying their weight. Where they find weakness we act on the '
+            'programme, not on the reviewer.'
+        ),
+        (
+            'The third is that a degree should survive contact with the work. '
+            'Every programme here carries substantial laboratory, clinical or '
+            'field work, because the country will not be short of graduates who '
+            'have only read about engineering, medicine or law. Our twelve '
+            'research centres stay deliberately close to regional industry, '
+            'because a university that never leaves its campus eventually '
+            'teaches a country that has moved on.'
+        ),
+        (
+            'None of this is a new ambition. It is the founding conviction of '
+            'this institution, restated because it is easy to lose under the '
+            'pressures of growth. If we hold to it, the graduate who leaves '
+            'this campus will have been taught by people who knew their names, '
+            'examined honestly, and asked to do real work before being trusted '
+            'with it. That is the standard I ask to be held to, and the one '
+            'against which I am content to be judged.'
+        ),
+    ],
+
+    # Rendered as the ticks list under the speech.
+    'commitments': [
+        'Lecture groups capped, and staffed by faculty with terminal degrees',
+        'External review of every programme on a fixed five-year cycle',
+        'Substantial laboratory, clinical or field work in every programme',
+        'Twelve research centres working with regional industry',
+        'Library, career services and counselling open to every student',
+    ],
+}
+
 # --- Leadership messages -----------------------------------------------------
 # This is a demonstration site. The people, offices and statements below are
 # fictional and must not be read as the words of any real person or office.
@@ -281,21 +431,9 @@ LEADERS = [
             'ought to be asked about, by students and by the country alike.'
         ),
     },
-    {
-        'name': 'Prof. Dr. Anwarul Kabir',
-        'role': 'Vice-Chancellor',
-        'office': None,
-        'portrait': 'img/vice-chancellor.jpg',
-        'alt': 'Portrait of the Vice-Chancellor of Jholo University',
-        'message': (
-            'Our task each year is unglamorous and exacting: keep lecture groups '
-            'small, keep assessment honest, and keep every programme current with '
-            'the work our graduates will actually do. Our teaching staff hold '
-            'terminal degrees, our programmes carry real laboratory and field '
-            'work, and our twelve research centres stay close to regional '
-            'industry. Those are the commitments I would ask you to hold us to.'
-        ),
-    },
+    # Copied rather than retyped, so the carousel quote and the page speech are
+    # always the same text. The extra keys are ignored by the carousel template.
+    dict(VICE_CHANCELLOR),
 ]
 
 # --- Mission and vision ------------------------------------------------------
